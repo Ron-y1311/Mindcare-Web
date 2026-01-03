@@ -35,6 +35,7 @@ import java.io.IOException;
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    //prueba
     private static final String[] PUBLIC_ENDPOINTS = {
             "/api/authenticate",
             "/api/usuarios/pacientes",
