@@ -52,6 +52,7 @@ public class SecurityConfig {
     private final JwtRequestFilter jwtRequestFilter;
 
     // Inyección por constructor
+
     public SecurityConfig(CustomUserDetailsService userDetailsService, JwtRequestFilter jwtRequestFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtRequestFilter = jwtRequestFilter;
