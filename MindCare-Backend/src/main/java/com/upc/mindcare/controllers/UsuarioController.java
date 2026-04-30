@@ -24,6 +24,7 @@ public class UsuarioController {
         return usuarioService.registrarUsuario(dto);
     }
 
+    //Registro de paciente
     @PostMapping("/pacientes")
     @PreAuthorize("permitAll()")
     public PacienteDTO registrarPaciente(@Valid @RequestBody PacienteDTO dto) {

@@ -133,10 +133,8 @@ public class UsuarioService implements IUsuarioService {
         response.setCorreo(usuario.getCorreo());
         return response;
     }
-
-
     public PacienteDTO obtenerPacientePorId(Long id) {
-        return mapPacienteDTO(buscarPaciente(id));
+      return mapPacienteDTO(buscarPaciente(id));
     }
 
     @Transactional
