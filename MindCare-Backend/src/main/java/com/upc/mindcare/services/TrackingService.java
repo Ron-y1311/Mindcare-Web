@@ -33,6 +33,7 @@ public class TrackingService implements ITrackingService {
     private ModelMapper modelMapper;
 
     @Transactional
+    //Implementar registro emocional
     public TrackingDTO registrarEstadoEmocional(TrackingDTO dto) {
         Paciente paciente = pacienteRepositorio.findById(dto.getPacienteId())
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
