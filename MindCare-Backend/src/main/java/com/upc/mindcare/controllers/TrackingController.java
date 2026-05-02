@@ -17,7 +17,7 @@ public class TrackingController {
 
     @Autowired
     private TrackingService trackingService;
-
+    //Agregar endpoint registro emocional
     @PostMapping("/estado-emocional")
     @PreAuthorize("hasRole('PACIENTE')")
     public TrackingDTO registrarEstadoEmocional(@Valid @RequestBody TrackingDTO dto) {
