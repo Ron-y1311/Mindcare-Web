@@ -36,6 +36,7 @@ import java.io.IOException;
 public class SecurityConfig {
 
     //prueba
+    //configuracion de endpoints para autenticacion
     private static final String[] PUBLIC_ENDPOINTS = {
             "/api/authenticate",
             "/api/usuarios/pacientes",
