@@ -169,6 +169,7 @@ public class UsuarioService implements IUsuarioService {
         return mapPacienteDTO(pacienteRepositorio.save(paciente));
     }
     @Transactional
+    //Implementar metodo para registrar profesional
     public ProfesionalDTO registrarProfesional(ProfesionalDTO dto) {
         Usuario usuario = obtenerOCrearUsuarioRegistro(dto.getUsuarioId(), dto.getNombre(), dto.getUsername(),
                 dto.getCorreo(), dto.getPassword(), ROL_PROFESIONAL);
