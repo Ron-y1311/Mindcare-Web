@@ -46,6 +46,7 @@ public class UsuarioController {
 
     @PostMapping("/profesionales")
     @PreAuthorize("permitAll()")
+    //Agregar endpoint POST con metodo "registrarProfesional"
     public ProfesionalDTO registrarProfesional(@Valid @RequestBody ProfesionalDTO dto) {
         return usuarioService.registrarProfesional(dto);
     }
