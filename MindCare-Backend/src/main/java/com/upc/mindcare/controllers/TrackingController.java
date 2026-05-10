@@ -33,6 +33,7 @@ public class TrackingController {
         return trackingService.registrarReflexionDiaria(id, dto);
     }
 
+    //Agregar endpoint get a la funcion de consultaHistorialEmocional para poder llamarlo en el frontend
     @GetMapping("/paciente/{pacienteId}/historial")
     @PreAuthorize("hasAnyRole('PACIENTE', 'PROFESIONAL')")
     public List<TrackingDTO> consultarHistorialEmocional(@PathVariable Long pacienteId) {
