@@ -55,6 +55,7 @@ public class TrackingService implements ITrackingService {
         return mapToDTO(tracking);
     }
 
+    //Se agrega una funcion para poder consultar el historial emocional en el service
     public List<TrackingDTO> consultarHistorialEmocional(Long pacienteId) {
         validarPacienteExiste(pacienteId);
 
