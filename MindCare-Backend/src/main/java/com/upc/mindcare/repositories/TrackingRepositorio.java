@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface TrackingRepositorio extends JpaRepository<Tracking, Long> {
     List<Tracking> findByPaciente_PacienteId(Long pacienteId);
+    //Agregar query metod para order el paciente por la fecha para poder ver su tracking
     List<Tracking> findByPaciente_PacienteIdOrderByFechaAsc(Long pacienteId);
     boolean existsByEstadoAnimo_IdEstadoAnimo(Long idEstadoAnimo);
 }
