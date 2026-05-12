@@ -67,6 +67,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    //Configurar autenticacion con JWT
     public SecurityFilterChain securityFilterChain(HttpSecurity http, ObjectMapper objectMapper) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
