@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/citas")
+//Agregar rutas para verlos en swagger
 @Tag(name = "Citas", description = "Gestión de citas entre pacientes y profesionales")
 public class CitaController {
     //Se validan las rutas de los endpoints para su correcto uso en Postman de CitaController
