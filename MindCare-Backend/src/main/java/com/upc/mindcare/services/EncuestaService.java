@@ -29,6 +29,7 @@ public class EncuestaService implements IEncuestaService {
     @Transactional public EncuestaDTO crearEncuestaInicial(EncuestaDTO dto)
     {
         return crearEncuesta(dto, TIPO_INICIAL, true); }
+    //Implementar encuesta diaria en services
     @Transactional public EncuestaDTO crearEncuestaDiaria(EncuestaDTO dto) { return crearEncuesta(dto, TIPO_DIARIA, true); }
 
     @Transactional
