@@ -27,6 +27,7 @@ public class EncuestaController {
 
     @PostMapping("/encuesta-diaria")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar encuesta diaria en controller
     public EncuestaDTO crearEncuestaDiaria(@Valid @RequestBody EncuestaDTO dto) {
         return encuestaService.crearEncuestaDiaria(dto);
     }
