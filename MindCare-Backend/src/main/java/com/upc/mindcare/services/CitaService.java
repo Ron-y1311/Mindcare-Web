@@ -43,6 +43,7 @@ public class CitaService implements ICitaService {
     @Autowired
     private ModelMapper modelMapper;
 
+    //Implementacion del meetodo registrar cita
     @Transactional
     public CitaDTO agendarCita(CitaDTO dto) {
         Paciente paciente = pacienteRepositorio.findById(dto.getPacienteId())
