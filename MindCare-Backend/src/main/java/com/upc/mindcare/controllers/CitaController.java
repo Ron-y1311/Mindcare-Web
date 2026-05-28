@@ -18,6 +18,7 @@ public class CitaController {
     @Autowired
     private CitaService citaService;
 
+    //Implementar endpoint con el metodo agendarCita en el controller
     @PostMapping
     @PreAuthorize("hasRole('PACIENTE')")
     public CitaDTO agendar(@Valid @RequestBody CitaDTO dto) {
