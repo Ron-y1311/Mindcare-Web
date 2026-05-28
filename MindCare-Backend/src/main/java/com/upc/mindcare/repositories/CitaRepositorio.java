@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CitaRepositorio extends JpaRepository<Cita, Long> {
+    //Crear metodos para poder usar en la gestion de citas
     List<Cita> findByPaciente_PacienteId(Long pacienteId);
     List<Cita> findByProfesional_IdProfesional(Long profesionalId);
     boolean existsByProfesional_IdProfesionalAndFecha(Long profesionalId, LocalDateTime fecha);
