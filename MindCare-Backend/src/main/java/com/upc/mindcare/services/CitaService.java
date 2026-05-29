@@ -63,7 +63,7 @@ public class CitaService implements ICitaService {
         return mapToDTO(citaRepositorio.save(cita));
     }
 
-
+    //Implementar metodo de listarCitaPorPaciente
     public List<CitaDTO> listarCitasPorPaciente(Long pacienteId) {
         pacienteRepositorio.findById(pacienteId)
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
