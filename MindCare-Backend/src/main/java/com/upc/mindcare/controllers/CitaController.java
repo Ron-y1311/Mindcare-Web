@@ -26,6 +26,7 @@ public class CitaController {
         return citaService.agendarCita(dto);
     }
 
+    //Implementar endpoint get de listar cita por paciente
     @GetMapping("/paciente/{id}")
     @PreAuthorize("hasAnyRole('PACIENTE', 'PROFESIONAL')")
     public List<CitaDTO> listarPorPaciente(@PathVariable Long id) {
