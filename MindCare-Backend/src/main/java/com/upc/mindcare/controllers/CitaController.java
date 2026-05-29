@@ -33,6 +33,7 @@ public class CitaController {
         return citaService.listarCitasPorPaciente(id);
     }
 
+    //Implementar endpoint get de listar cita por profesional
     @GetMapping("/profesional/{id}")
     @PreAuthorize("hasRole('PROFESIONAL')")
     public List<CitaDTO> listarPorProfesional(@PathVariable Long id) {
