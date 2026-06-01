@@ -102,6 +102,7 @@ public class CitaService implements ICitaService {
     }
 
     @Transactional
+    //Implementacion de cancelar cita en CitaService
     public void cancelarCita(Long citaId) {
         Cita cita = obtenerCita(citaId);
         validarEstadoActual(cita, "No se puede cancelar una cita finalizada", ESTADO_PENDIENTE, ESTADO_CONFIRMADA, ESTADO_REPROGRAMADA);
