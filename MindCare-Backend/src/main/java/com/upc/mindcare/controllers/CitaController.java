@@ -43,6 +43,7 @@ public class CitaController {
         citaService.confirmarCita(id);
     }
 
+    //Implemenatacion del endpoint PUT en CitaController
     @PutMapping("/{id}/reprogramar")
     @PreAuthorize("hasAnyRole('PACIENTE', 'PROFESIONAL')")
     public void reprogramar(@PathVariable Long id, @RequestBody CitaDTO dto) {
