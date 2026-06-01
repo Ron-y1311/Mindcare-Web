@@ -88,6 +88,7 @@ public class CitaService implements ICitaService {
     }
 
     @Transactional
+    //Implementacion de reprogramar cita en CitaService
     public void reprogramarCita(Long citaId, LocalDateTime nuevaFecha) {
         Cita cita = obtenerCita(citaId);
         validarEstadoActual(cita, "No se puede reprogramar una cita cancelada o finalizada", ESTADO_PENDIENTE, ESTADO_CONFIRMADA, ESTADO_REPROGRAMADA);
