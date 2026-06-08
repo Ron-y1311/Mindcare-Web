@@ -26,6 +26,7 @@ public class DashboardService implements IDashboardService {
     @Autowired private PacienteRepositorio pacienteRepositorio;
     @Autowired private ModelMapper modelMapper;
 
+    //Implementar Dashboard del paciente personal
     public DashboardDTO visualizarDashboardPersonal(Long pacienteId) {
         validarPacienteExiste(pacienteId);
         List<Tracking> trackings = trackingRepositorio.findByPaciente_PacienteId(pacienteId);
