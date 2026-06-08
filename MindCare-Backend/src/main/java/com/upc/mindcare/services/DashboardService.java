@@ -50,6 +50,7 @@ public class DashboardService implements IDashboardService {
                 .toList();
     }
 
+    //Implementar resumen emocional en service
     public ResumenEmocionalDTO obtenerResumenEmocional(Long pacienteId) {
         validarPacienteExiste(pacienteId);
         List<Tracking> trackings = trackingRepositorio.findByPaciente_PacienteId(pacienteId);
