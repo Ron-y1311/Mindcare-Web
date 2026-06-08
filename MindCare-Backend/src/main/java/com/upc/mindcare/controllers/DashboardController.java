@@ -21,6 +21,7 @@ public class DashboardController {
 
     @GetMapping("/paciente/{pacienteId}")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar Dashboard en controller
     public DashboardDTO visualizarDashboardPersonal(@PathVariable Long pacienteId) {
         return dashboardService.visualizarDashboardPersonal(pacienteId);
     }
