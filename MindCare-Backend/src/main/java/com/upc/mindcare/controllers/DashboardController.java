@@ -34,6 +34,7 @@ public class DashboardController {
 
     @GetMapping("/paciente/{pacienteId}/resumen")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar resumen emocional en controller
     public ResumenEmocionalDTO obtenerResumenEmocional(@PathVariable Long pacienteId) {
         return dashboardService.obtenerResumenEmocional(pacienteId);
     }
