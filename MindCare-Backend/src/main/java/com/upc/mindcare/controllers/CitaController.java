@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/citas")
 @Tag(name = "Citas", description = "Gestión de citas entre pacientes y profesionales")
 public class CitaController {
-
+    //Se validan las rutas de los endpoints para su correcto uso en Postman de CitaController
     @Autowired
     private CitaService citaService;
 
