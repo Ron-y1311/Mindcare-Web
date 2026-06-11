@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/encuestas")
 @Tag(name = "Encuestas", description = "Gestión de encuestas de salud mental")
 public class EncuestaController {
-
+    //Se validan las rutas de los endpoints para su correcto uso en Postman de EncuestaController
     @Autowired
     private EncuestaService encuestaService;
 
