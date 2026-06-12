@@ -1,3 +1,4 @@
+//actualizacion de documentacion de DashboardController
 package com.upc.mindcare.controllers;
 
 import com.upc.mindcare.dtos.DashboardDTO;
