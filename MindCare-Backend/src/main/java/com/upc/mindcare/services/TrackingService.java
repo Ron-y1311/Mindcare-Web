@@ -32,6 +32,7 @@ public class TrackingService implements ITrackingService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @Transactional
     public TrackingDTO registrarEstadoEmocional(TrackingDTO dto) {
         Paciente paciente = pacienteRepositorio.findById(dto.getPacienteId())
