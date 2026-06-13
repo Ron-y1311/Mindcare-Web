@@ -92,6 +92,7 @@ public class SecurityConfig {
     }
 
     // CORS Filter global de alta prioridad configurado vía properties (ip.frontend)
+    //Actualizacion de security para centralizar el CORS
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsFilter corsFilter(@Value("${ip.frontend}") String frontendUrl) {
