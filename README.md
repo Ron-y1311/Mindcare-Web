@@ -66,4 +66,4 @@ Actualmente en desarrollo.
 
 ## 🎓 Proyecto Académico
 
-Desarrollado como parte de la carrera de Ingeniería de Software.
+Desarrollado como parte de la carrera de Ingeniería de Sistemas de Información.
