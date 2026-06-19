@@ -59,6 +59,7 @@ public class ProfesionalService implements IProfesionalService {
     }
 
     @Transactional
+    //Implementar Asiciacion de especialidades en services
     public ProfesionalDTO asociarEspecialidades(Long id, List<Long> especialidadIds) {
         Profesional profesional = buscarProfesional(id);
         profesional.setEspecialidades(obtenerEspecialidades(especialidadIds));
