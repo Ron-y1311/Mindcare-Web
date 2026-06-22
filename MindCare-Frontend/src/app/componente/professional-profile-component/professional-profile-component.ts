@@ -1,3 +1,4 @@
+//Logica de TypeScript del perfil del profesional
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -32,8 +33,8 @@ export class ProfessionalProfileComponent implements OnInit {
   dbEspecialidades: CatalogoItem[] = [];
 
   constructor(
-    private auth: AuthService, 
-    private profesionalService: ProfesionalService, 
+    private auth: AuthService,
+    private profesionalService: ProfesionalService,
     private catalogoService: CatalogoService,
     private cdr: ChangeDetectorRef
   ) {}
