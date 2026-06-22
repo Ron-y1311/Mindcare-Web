@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 //Repositorio para reset del password
+//Creacion de metodo findBytoken para recuperar contraseña con un numero de token que se podra visualizar en correo
 @Repository
 public interface PasswordResetTokenRepositorio extends JpaRepository<PasswordResetToken, Long> {
     Optional<PasswordResetToken> findByToken(String token);
