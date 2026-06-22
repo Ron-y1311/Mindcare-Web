@@ -1,3 +1,4 @@
+/* Estilos generales del dashboard */
 :host {
   display: block;
   min-height: 100vh;
@@ -866,14 +867,14 @@
   font-size: 15px;
 }
 
-.feedback-btn.like:hover, 
+.feedback-btn.like:hover,
 .feedback-btn.like.active {
   background: #dcfce7;
   color: #15803d;
   border-color: #86efac;
 }
 
-.feedback-btn.dislike:hover, 
+.feedback-btn.dislike:hover,
 .feedback-btn.dislike.active {
   background: #fee2e2;
   color: #b91c1c;

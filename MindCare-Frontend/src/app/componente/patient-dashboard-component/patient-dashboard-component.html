@@ -1,3 +1,4 @@
+<!--Implemenatacion de la pantalla de Dashboard del paciente en HTML usando Angular-->>
 <div class="dashboard-layout">
   <app-sidebar></app-sidebar>
 
@@ -161,7 +162,7 @@
                       <p class="rec-text">{{ rec.text }}</p>
                     </div>
                   </div>
-                  
+
                   <!-- Retroalimentación IA/ML -->
                   <div class="rec-feedback-controls">
                     <span class="feedback-label">¿Útil?</span>
@@ -219,7 +220,7 @@
 
               <!-- Breathing Circle Animation -->
               <div style="display: flex; align-items: center; justify-content: center; height: 110px; width: 110px; position: relative;">
-                <div class="breathing-circle" [ngClass]="breathingPhase" 
+                <div class="breathing-circle" [ngClass]="breathingPhase"
                      style="height: 70px; width: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15); color: white;">
                   <span>{{ breathingText }}</span>
                 </div>
