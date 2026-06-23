@@ -25,6 +25,7 @@ public class ProfesionalController {
         return profesionalService.completarPerfilProfesional(profesionalDTO);
     }
 
+    //Implementar endpoint de actualizarProfesional
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('PROFESIONAL')")
     public ProfesionalDTO actualizarPerfilProfesional(
