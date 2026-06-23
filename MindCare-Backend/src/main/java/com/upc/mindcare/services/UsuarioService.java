@@ -251,6 +251,7 @@ public class UsuarioService implements IUsuarioService {
         return "Token de recuperacion generado: " + reset.getToken();
     }
 
+    //Implementar metodos en UsuarioService para solicitar recuperacion y recuperar password
     @Transactional
     public String restablecerPassword(String token, String nuevaPassword) {
         PasswordResetToken reset = passwordResetTokenRepositorio.findByToken(token)
