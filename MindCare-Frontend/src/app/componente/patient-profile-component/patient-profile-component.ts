@@ -1,3 +1,4 @@
+//Implemenatacion de la pantalla de perfil del paciente en TypeScript
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -128,11 +129,11 @@ export class PatientProfileComponent implements OnInit {
       .subscribe({
         next: paciente => {
           this.saving = false;
-          this.profile = { 
-            ...this.profile, 
-            ...paciente, 
+          this.profile = {
+            ...this.profile,
+            ...paciente,
             genero: paciente.genero?.toLowerCase() || 'otro',
-            fechaNacimiento: this.normalizeDate(paciente.fechaNacimiento) 
+            fechaNacimiento: this.normalizeDate(paciente.fechaNacimiento)
           };
           this.refreshSession();
           this.successMessage = 'Perfil actualizado correctamente.';
