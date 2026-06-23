@@ -50,6 +50,7 @@ public class UsuarioController {
     public ProfesionalDTO registrarProfesional(@Valid @RequestBody ProfesionalDTO dto) {
         return usuarioService.registrarProfesional(dto);
     }
+    //Implementar endpoints de recuperacion de password para conectar con el frontend
     @PostMapping("/recuperar-password")
     @PreAuthorize("permitAll()")
     public String solicitarRecuperacion(@Valid @RequestBody PasswordResetRequestDTO dto) {
