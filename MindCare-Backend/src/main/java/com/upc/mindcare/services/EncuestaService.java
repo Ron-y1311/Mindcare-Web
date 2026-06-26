@@ -92,6 +92,8 @@ public class EncuestaService implements IEncuestaService {
         return encuestaRepositorio.findByPaciente_PacienteIdAndEstado(pacienteId, ESTADO_PENDIENTE)
                 .stream().map(this::mapToDTO).toList();
     }
+
+    //Metodo que filtra mediante Java Streams las encuestas del paciente que estan en estado COMPLETADA
     public List<EncuestaDTO> consultarResultadosEncuestas(Long pacienteId)
     { return listarEncuestasPorPaciente(pacienteId)
             .stream().filter(e -> ESTADO_COMPLETADA.equals(e.getEstado())).toList();

@@ -69,7 +69,7 @@ public class EncuestaController {
     public List<EncuestaDTO> listarPendientes(@PathVariable Long pacienteId) {
         return encuestaService.listarEncuestasPendientesPorPaciente(pacienteId);
     }
-
+    //Declaracion del endpoint GET 
     @GetMapping("/paciente/{pacienteId}/resultados")
     @PreAuthorize("hasRole('PACIENTE')")
     public List<EncuestaDTO> consultarResultadosEncuestas(@PathVariable Long pacienteId) {

@@ -3,7 +3,7 @@ package com.upc.mindcare.interfaces;
 import com.upc.mindcare.dtos.EncuestaDTO;
 
 import java.util.List;
-
+//Elaboracoin de IEncuestaService
 public interface IEncuestaService {
     EncuestaDTO crearEncuestaDiariaPendiente(Long pacienteId);
     EncuestaDTO finalizarEncuesta(Long encuestaId, EncuestaDTO dto);
