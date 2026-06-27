@@ -18,6 +18,7 @@ public class EncuestaController {
     @Autowired
     private EncuestaService encuestaService;
 
+    //Implementar endpoint POST para el registro de encuesta inicial
     //La encuesta inicial se realiza cuando el usuario paciente entra a su dashboard principal. Sirve para obtener informacion del estado de animo del paciente en el momento
     @PostMapping("/encuesta-inicial")
     @PreAuthorize("hasRole('PACIENTE')")
