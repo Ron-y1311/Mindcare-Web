@@ -27,6 +27,7 @@ public class DashboardController {
         return dashboardService.visualizarDashboardPersonal(pacienteId);
     }
 
+    //Implementar endpoint de la consulta evolucion emocional
     @GetMapping("/paciente/{pacienteId}/evolucion-emocional")
     @PreAuthorize("hasRole('PACIENTE')")
     public List<TrackingDTO> consultarEvolucionEmocional(@PathVariable Long pacienteId) {
