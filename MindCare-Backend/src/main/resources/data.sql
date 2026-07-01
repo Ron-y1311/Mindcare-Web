@@ -12,6 +12,8 @@ INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (1, 'Tra
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (2, 'Ansioso', 'Sensacion de ansiedad o inquietud') ON CONFLICT (id_estado_animo) DO NOTHING;
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (3, 'Triste', 'Estado de animo bajo') ON CONFLICT (id_estado_animo) DO NOTHING;
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (4, 'Motivado', 'Estado positivo y activo') ON CONFLICT (id_estado_animo) DO NOTHING;
+INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (5, 'Feliz', 'Estado de gran felicidad o alegria') ON CONFLICT (id_estado_animo) DO NOTHING;
+INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (6, 'Estresado', 'Sensacion de sobrecarga o tension') ON CONFLICT (id_estado_animo) DO NOTHING;
 
 INSERT INTO preguntas (id_pregunta, texto) VALUES (1, 'Como describirias tu estado emocional actual?') ON CONFLICT (id_pregunta) DO NOTHING;
 INSERT INTO preguntas (id_pregunta, texto) VALUES (2, 'Que tan intensa fue tu emocion principal hoy?') ON CONFLICT (id_pregunta) DO NOTHING;
@@ -37,6 +39,8 @@ INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (1, 'Tra
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (2, 'Ansioso', 'Sensacion de ansiedad o inquietud') ON CONFLICT (id_estado_animo) DO NOTHING;
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (3, 'Triste', 'Estado de animo bajo') ON CONFLICT (id_estado_animo) DO NOTHING;
 INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (4, 'Motivado', 'Estado positivo y activo') ON CONFLICT (id_estado_animo) DO NOTHING;
+INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (5, 'Feliz', 'Estado de gran felicidad o alegria') ON CONFLICT (id_estado_animo) DO NOTHING;
+INSERT INTO estados_animo (id_estado_animo, nombre, descripcion) VALUES (6, 'Estresado', 'Sensacion de sobrecarga o tension') ON CONFLICT (id_estado_animo) DO NOTHING;
 
 INSERT INTO preguntas (id_pregunta, texto) VALUES (1, 'Como describirias tu estado emocional actual?') ON CONFLICT (id_pregunta) DO NOTHING;
 INSERT INTO preguntas (id_pregunta, texto) VALUES (2, 'Que tan intensa fue tu emocion principal hoy?') ON CONFLICT (id_pregunta) DO NOTHING;
