@@ -16,10 +16,12 @@ public class TrackingDTO
 {
     private Long idTracking;
     private Long estadoAnimoId;
+    private String estadoAnimoNombre;
     private LocalDateTime fecha;
     private String nota;
     private Integer numeroIntensidad;
     private String reflexionDescripcion;
     private Long pacienteId;
 }
+
 

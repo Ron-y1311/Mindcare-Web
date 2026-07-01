@@ -12,6 +12,7 @@ public interface IUsuarioService {
     List<UsuarioDTO> listarPacientesUsuarios();
     List<UsuarioDTO> listarProfesionalesUsuarios();
     UsuarioDTO obtenerUsuarioPorId(Long id);
+    UsuarioDTO actualizarUsuario(Long id, UsuarioDTO dto);
     UsuarioDTO buscarUsuarioPorCorreo(String correo);
     void eliminarUsuario(Long id);
     PacienteDTO registrarPaciente(PacienteDTO dto);

@@ -38,7 +38,7 @@ public class TrackingService implements ITrackingService {
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
 
         EstadoAnimo estado = estadoAnimoRepositorio.findById(dto.getEstadoAnimoId())
-                .orElseThrow(() -> new RuntimeException("Estado de ÃƒÂ¡nimo no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Estado de ÃƒÆ’Ã‚Â¡nimo no encontrado"));
 
         validarIntensidad(dto.getNumeroIntensidad());
 

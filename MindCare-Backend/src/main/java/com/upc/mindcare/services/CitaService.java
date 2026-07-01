@@ -80,13 +80,16 @@ public class CitaService implements ICitaService {
 
     @Transactional
     public void confirmarCita(Long citaId) {
-        cambiarEstadoPorNombre(citaId, ESTADO_CONFIRMADA);
+        Cita cita = obtenerCita(citaId);
+        validarEstadoActual(cita, "Solo se pueden confirmar citas pendientes o reprogramadas", ESTADO_PENDIENTE, ESTADO_REPROGRAMADA);
+        cita.setEstadoCita(obtenerEstadoPorNombre(ESTADO_CONFIRMADA));
+        citaRepositorio.save(cita);
     }
 
     @Transactional
     public void reprogramarCita(Long citaId, LocalDateTime nuevaFecha) {
-        Cita cita = citaRepositorio.findById(citaId)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+        Cita cita = obtenerCita(citaId);
+        validarEstadoActual(cita, "No se puede reprogramar una cita cancelada o finalizada", ESTADO_PENDIENTE, ESTADO_CONFIRMADA, ESTADO_REPROGRAMADA);
         if (nuevaFecha == null) {
             throw new RuntimeException("La nueva fecha es obligatoria");
         }
@@ -98,12 +101,18 @@ public class CitaService implements ICitaService {
 
     @Transactional
     public void cancelarCita(Long citaId) {
-        cambiarEstadoPorNombre(citaId, ESTADO_CANCELADO);
+        Cita cita = obtenerCita(citaId);
+        validarEstadoActual(cita, "No se puede cancelar una cita finalizada", ESTADO_PENDIENTE, ESTADO_CONFIRMADA, ESTADO_REPROGRAMADA);
+        cita.setEstadoCita(obtenerEstadoPorNombre(ESTADO_CANCELADO));
+        citaRepositorio.save(cita);
     }
 
     @Transactional
     public void finalizarCita(Long citaId) {
-        cambiarEstadoPorNombre(citaId, ESTADO_FINALIZADA);
+        Cita cita = obtenerCita(citaId);
+        validarEstadoActual(cita, "Solo se pueden finalizar citas confirmadas", ESTADO_CONFIRMADA);
+        cita.setEstadoCita(obtenerEstadoPorNombre(ESTADO_FINALIZADA));
+        citaRepositorio.save(cita);
     }
 
     @Transactional
@@ -118,8 +127,8 @@ public class CitaService implements ICitaService {
 
     @Transactional
     public void registrarNotaClinica(Long citaId, CitaDTO citaDTO) {
-        Cita cita = citaRepositorio.findById(citaId)
-                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+        Cita cita = obtenerCita(citaId);
+        validarEstadoActual(cita, "Solo se puede registrar nota clinica en citas confirmadas", ESTADO_CONFIRMADA);
 
         if (esVacio(citaDTO.getNota()) && esVacio(citaDTO.getObservacionesClinicas()) && esVacio(citaDTO.getPlanAccion())) {
             throw new RuntimeException("La nota clinica debe tener contenido valido");
@@ -144,6 +153,24 @@ public class CitaService implements ICitaService {
         return mapToDTO(cita);
     }
 
+    private Cita obtenerCita(Long citaId) {
+        return citaRepositorio.findById(citaId)
+                .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
+    }
+
+    private void validarEstadoActual(Cita cita, String mensaje, String... estadosPermitidos) {
+        String actual = nombreEstado(cita);
+        for (String permitido : estadosPermitidos) {
+            if (permitido.equals(actual)) {
+                return;
+            }
+        }
+        throw new RuntimeException(mensaje);
+    }
+
+    private String nombreEstado(Cita cita) {
+        return cita != null && cita.getEstadoCita() != null ? cita.getEstadoCita().getNombre() : "";
+    }
     private void cambiarEstadoPorNombre(Long citaId, String nombreEstado) {
         Cita cita = citaRepositorio.findById(citaId)
                 .orElseThrow(() -> new RuntimeException("Cita no encontrada"));
@@ -176,6 +203,9 @@ public class CitaService implements ICitaService {
         CitaDTO dto = modelMapper.map(cita, CitaDTO.class);
         if (cita.getPaciente() != null) {
             dto.setPacienteId(cita.getPaciente().getPacienteId());
+            dto.setEdad(cita.getPaciente().getEdad());
+            dto.setGenero(cita.getPaciente().getGenero());
+            dto.setTelefono(cita.getPaciente().getTelefono());
 
             if (cita.getPaciente().getUsuario() != null) {
                 dto.setNombrePaciente(cita.getPaciente().getUsuario().getNombre());
@@ -193,4 +223,5 @@ public class CitaService implements ICitaService {
         return dto;
     }
 }
+
 

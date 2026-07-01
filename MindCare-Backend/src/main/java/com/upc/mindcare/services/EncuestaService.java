@@ -26,7 +26,9 @@ public class EncuestaService implements IEncuestaService {
     @Autowired private PacienteRepositorio pacienteRepositorio;
     @Autowired private ModelMapper modelMapper;
 
-    @Transactional public EncuestaDTO crearEncuestaInicial(EncuestaDTO dto) { return crearEncuesta(dto, TIPO_INICIAL, true); }
+    @Transactional public EncuestaDTO crearEncuestaInicial(EncuestaDTO dto)
+    {
+        return crearEncuesta(dto, TIPO_INICIAL, true); }
     @Transactional public EncuestaDTO crearEncuestaDiaria(EncuestaDTO dto) { return crearEncuesta(dto, TIPO_DIARIA, true); }
 
     @Transactional

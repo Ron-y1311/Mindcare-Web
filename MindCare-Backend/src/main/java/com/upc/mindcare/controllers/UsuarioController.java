@@ -79,6 +79,11 @@ public class UsuarioController {
     public UsuarioDTO obtenerUsuarioPorId(@PathVariable Long id) {
         return usuarioService.obtenerUsuarioPorId(id);
     }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('PACIENTE','PROFESIONAL','ADMIN')")
+    public UsuarioDTO actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        return usuarioService.actualizarUsuario(id, dto);
+    }
 
     @GetMapping("/correo")
     @PreAuthorize("hasRole('ADMIN')")

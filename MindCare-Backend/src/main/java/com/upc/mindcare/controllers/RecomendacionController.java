@@ -1,5 +1,6 @@
 package com.upc.mindcare.controllers;
 
+import com.upc.mindcare.dtos.RecomendacionDTO;
 import com.upc.mindcare.services.RecomendacionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/recomendaciones")
-@Tag(name = "Recomendaciones", description = "Generación de recomendaciones emocionales")
+@Tag(name = "Recomendaciones", description = "Generacion de recomendaciones emocionales")
 public class RecomendacionController {
 
     @Autowired
@@ -19,7 +20,13 @@ public class RecomendacionController {
 
     @GetMapping("/paciente/{pacienteId}")
     @PreAuthorize("hasRole('PACIENTE')")
-    public String generarRecomendacionesPersonalizadas(@PathVariable Long pacienteId) {
+    public RecomendacionDTO generarRecomendacionesPersonalizadas(@PathVariable Long pacienteId) {
+        return recomendacionService.generarRecomendacionesPersonalizadas(pacienteId);
+    }
+
+    @GetMapping("/paciente/{pacienteId}/resumen")
+    @PreAuthorize("hasRole('PACIENTE')")
+    public RecomendacionDTO generarResumenRecomendaciones(@PathVariable Long pacienteId) {
         return recomendacionService.generarRecomendacionesPersonalizadas(pacienteId);
     }
 

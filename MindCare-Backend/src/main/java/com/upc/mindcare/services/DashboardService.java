@@ -45,7 +45,7 @@ public class DashboardService implements IDashboardService {
         validarPacienteExiste(pacienteId);
         return trackingRepositorio.findByPaciente_PacienteId(pacienteId).stream()
                 .sorted(Comparator.comparing(Tracking::getFecha))
-                .map(t -> modelMapper.map(t, TrackingDTO.class))
+                .map(this::mapTrackingToDTO)
                 .toList();
     }
 
@@ -71,6 +71,20 @@ public class DashboardService implements IDashboardService {
         );
     }
 
+    private TrackingDTO mapTrackingToDTO(Tracking tracking) {
+        TrackingDTO dto = modelMapper.map(tracking, TrackingDTO.class);
+
+        if (tracking.getPaciente() != null) {
+            dto.setPacienteId(tracking.getPaciente().getPacienteId());
+        }
+
+        if (tracking.getEstadoAnimo() != null) {
+            dto.setEstadoAnimoId(tracking.getEstadoAnimo().getIdEstadoAnimo());
+            dto.setEstadoAnimoNombre(tracking.getEstadoAnimo().getNombre());
+        }
+
+        return dto;
+    }
     private String clasificar(double promedio) {
         if (promedio <= 0) return "SIN_DATOS";
         if (promedio <= 3) return "BAJO";
@@ -82,3 +96,4 @@ public class DashboardService implements IDashboardService {
         pacienteRepositorio.findById(pacienteId).orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
     }
 }
+

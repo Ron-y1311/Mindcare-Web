@@ -46,6 +46,8 @@ public class JwtUtil {
         claims.put("roles", userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet()));
+        claims.put("email", userDetails.getUsername());
+        claims.put("name", userDetails.getUsername());
         return createToken(claims, userDetails.getUsername());
     }
 
@@ -54,7 +56,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 8))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 20)) // 20 minutos
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }

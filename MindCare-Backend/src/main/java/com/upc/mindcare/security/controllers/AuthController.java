@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "${ip.frontend}", allowCredentials = "true", exposedHeaders = "Authorization")
 @RestController
 @RequestMapping("/api")
 public class AuthController {
@@ -48,6 +49,9 @@ public class AuthController {
         Usuario usuario = usuarioRepositorio.findByCorreoAndActivoTrue(authRequest.getCorreo())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado o inactivo"));
 
+        usuario.setUltimoAcceso(java.time.LocalDateTime.now());
+        usuario = usuarioRepositorio.save(usuario);
+
         Set<String> roles = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
@@ -56,7 +60,7 @@ public class AuthController {
                 Long pacienteId = usuario.getPaciente() != null ? usuario.getPaciente().getPacienteId() : null;
         Long profesionalId = usuario.getProfesional() != null ? usuario.getProfesional().getIdProfesional() : null;
         AuthResponseDTO response = new AuthResponseDTO(
-                token,
+                null, // Se limpia en el body, se entrega únicamente en la cabecera 'Authorization'
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
                 usuario.getCorreo(),

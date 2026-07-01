@@ -39,8 +39,9 @@ public class CitaDTO
 
     private Long estadoCitaId;
 
-
-
+    private Integer edad;
+    private String genero;
+    private String telefono;
 }
 
 
