@@ -207,7 +207,7 @@ public class UsuarioService implements IUsuarioService {
                 .orElseThrow(() -> new RuntimeException("El correo no existe"));
         PasswordResetToken reset = new PasswordResetToken();
         reset.setUsuario(usuario);
-        
+
         String randomToken;
         do {
             randomToken = String.format("%07d", new java.util.Random().nextInt(10000000));

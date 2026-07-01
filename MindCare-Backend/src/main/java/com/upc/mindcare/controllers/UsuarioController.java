@@ -48,8 +48,6 @@ public class UsuarioController {
     public ProfesionalDTO registrarProfesional(@Valid @RequestBody ProfesionalDTO dto) {
         return usuarioService.registrarProfesional(dto);
     }
-
-
     @PostMapping("/recuperar-password")
     @PreAuthorize("permitAll()")
     public String solicitarRecuperacion(@Valid @RequestBody PasswordResetRequestDTO dto) {

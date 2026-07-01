@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+//Request del reseteo del password
 @Getter
 @Setter
 @AllArgsConstructor
