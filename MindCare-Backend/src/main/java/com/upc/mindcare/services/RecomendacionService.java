@@ -85,6 +85,7 @@ public class RecomendacionService implements IRecomendacionService {
         return dto;
     }
 
+    //Implementar metodo evaluarEstadoEmocional en EncuestaService
     @Override
     public String evaluarEstadoEmocional(Long pacienteId) {
         RecomendacionDTO dto = generarRecomendacionesPersonalizadas(pacienteId);
