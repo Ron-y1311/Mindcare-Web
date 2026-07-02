@@ -1,0 +1,274 @@
+﻿<div class="reprogram-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined">spa</span>
+      </div>
+      <div>
+        <h1>MindCare</h1>
+        <p>Bienestar Emocional</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/patient-dashboard">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a routerLink="/emotion-history">
+        <span class="material-symbols-outlined">history</span>
+        Historial
+      </a>
+      <a class="active" routerLink="/agendar-cita">
+        <span class="material-symbols-outlined">event_note</span>
+        Citas
+      </a>
+      <a routerLink="/patient-profile">
+        <span class="material-symbols-outlined">account_circle</span>
+        Perfil
+      </a>
+    </nav>
+
+    <button mat-button class="logout" type="button" (click)="logout()">
+      <span class="material-symbols-outlined">logout</span>
+      Cerrar sesi&oacute;n
+    </button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <nav class="breadcrumb">
+        <a routerLink="/agendar-cita">Citas</a>
+        <span class="material-symbols-outlined">chevron_right</span>
+        <strong>Reprogramar</strong>
+      </nav>
+
+      <div class="top-actions">
+        <div class="search">
+          <span class="material-symbols-outlined">search</span>
+          <input matInput type="search" placeholder="Buscar...">
+        </div>
+        <button mat-button type="button" aria-label="Notificaciones">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button mat-button type="button" aria-label="Configuraci&oacute;n">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <div class="avatar">P</div>
+      </div>
+    </header>
+
+    <section class="content">
+      <button mat-button (click)="goBack()" class="back-btn" type="button">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Volver atr&aacute;s
+      </button>
+
+      <header class="page-title">
+        <h2>Reprogramar cita</h2>
+        <p>Selecciona una nueva fecha y hora para tu sesi&oacute;n</p>
+      </header>
+
+      <div *ngIf="errorMessage" class="alert error">
+        <span class="material-symbols-outlined">error</span>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <div *ngIf="loading" class="alert info">
+        <span class="material-symbols-outlined">hourglass_empty</span>
+        <p>Cargando cita actual...</p>
+      </div>
+
+      <div class="grid">
+        <div class="left-column">
+          <section class="card">
+            <div class="card-title">
+              <span class="material-symbols-outlined">event_available</span>
+              <h3>Cita actual</h3>
+            </div>
+
+            <div class="current-appointment">
+              <div class="doctor">
+                <div class="doctor-avatar">
+                  <span class="material-symbols-outlined">psychology</span>
+                </div>
+                <div>
+                  <h4>{{ currentProfessional }}</h4>
+                  <p>Consulta psicol&oacute;gica</p>
+                </div>
+              </div>
+
+              <div class="date-pill">
+                <div>
+                  <strong>{{ currentDateText }}</strong>
+                  <small>{{ currentTimeText }}</small>
+                </div>
+                <span class="material-symbols-outlined">calendar_month</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card selection-card">
+            <div class="card-title">
+              <span class="material-symbols-outlined secondary">edit_calendar</span>
+              <h3>Nueva selecci&oacute;n</h3>
+            </div>
+
+            <div class="selection-grid">
+              <div>
+                <p class="step-label">1. Selecciona la fecha</p>
+                <div class="calendar">
+                  <div class="calendar-head">
+                    <button mat-button type="button" (click)="previousMonth()">
+                      <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <strong>{{ monthLabel }}</strong>
+                    <button mat-button type="button" (click)="nextMonth()">
+                      <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                  </div>
+
+                  <div class="weekdays">
+                    <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+                  </div>
+
+                  <div class="days">
+                    <button mat-button
+                      *ngFor="let day of calendarDays"
+                      type="button"
+                      [class.muted]="day.muted"
+                      [class.today]="day.today"
+                      [class.selected]="newDate === day.date"
+                      (click)="selectDate(day.date, day.muted)"
+                    >
+                      {{ day.day }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p class="step-label">2. Selecciona el horario</p>
+                <div class="slots">
+                  <button mat-button
+                    *ngFor="let slot of slots"
+                    type="button"
+                    [class.selected]="selectedSlot === slot"
+                    (click)="selectSlot(slot)"
+                  >
+                    {{ formatSlot(slot) }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <label class="reason">
+              Motivo de la reprogramaci&oacute;n (opcional)
+              <textarea matInput
+                name="reason"
+                rows="4"
+                placeholder="Cu&eacute;ntanos el motivo para ayudar al especialista..."
+                [(ngModel)]="reason"
+              ></textarea>
+            </label>
+          </section>
+        </div>
+
+        <aside class="right-column">
+          <section class="summary-card">
+            <ng-container *ngIf="!successDateText; else reprogramSuccess">
+              <div class="summary-title">
+                <span class="material-symbols-outlined">summarize</span>
+                <h3>Resumen de cambios</h3>
+              </div>
+
+              <div class="summary-box old">
+                <p>Cita anterior</p>
+                <div>
+                  <span class="material-symbols-outlined">event_busy</span>
+                  <div>
+                    <strong>{{ currentDateText }}</strong>
+                    <small>{{ currentTimeText }}</small>
+                  </div>
+                </div>
+              </div>
+
+              <span class="material-symbols-outlined arrow">arrow_downward</span>
+
+              <div class="summary-box new">
+                <p>Nueva cita</p>
+                <div>
+                  <span class="material-symbols-outlined">calendar_today</span>
+                  <div>
+                    <strong>{{ selectedDateText }}</strong>
+                    <small>{{ selectedTimeText }}</small>
+                  </div>
+                </div>
+              </div>
+
+              <button mat-raised-button color="primary" class="confirm-btn" type="button" (click)="confirm()" [disabled]="saving || loading || !cita">
+                <span class="material-symbols-outlined">check_circle</span>
+                <span *ngIf="saving">Confirmando...</span>
+                <span *ngIf="!saving">Confirmar reprogramaci&oacute;n</span>
+              </button>
+
+              <p class="summary-note">
+                Al confirmar, se notificar&aacute; al profesional sobre el cambio. Podr&aacute;s reprogramar o cancelar hasta 24h antes.
+              </p>
+            </ng-container>
+
+            <ng-template #reprogramSuccess>
+              <div style="background:#fff;color:#0d1c2f;border-radius:22px;padding:28px 22px;text-align:center;box-shadow:0 18px 34px rgba(0,0,0,.14)">
+                <div style="width:72px;height:72px;border-radius:999px;background:#b2efe0;color:#0e5046;display:grid;place-items:center;margin:0 auto 18px">
+                  <span class="material-symbols-outlined" style="font-size:42px;font-variation-settings:'FILL' 1">check_circle</span>
+                </div>
+                <h4 style="margin:0 0 10px;color:#0d1c2f;font-size:23px;line-height:1.15">Cita reprogramada con &eacute;xito</h4>
+                <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5">Tu cita fue actualizada correctamente. Se notificar&aacute; al profesional sobre el cambio.</p>
+
+                <div style="background:#eff4ff;border-radius:12px;padding:14px;text-align:left;margin-bottom:22px">
+                  <div style="display:flex;gap:10px;margin-bottom:12px">
+                    <span class="material-symbols-outlined" style="color:#94a3b8">event_busy</span>
+                    <div>
+                      <small style="display:block;color:#64748b;text-transform:uppercase;font-weight:900">Cita anterior</small>
+                      <strong style="color:#64748b;text-decoration:line-through">{{ successOldDateTime }}</strong>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px;margin-bottom:12px">
+                    <span class="material-symbols-outlined" style="color:#075fab">event</span>
+                    <div>
+                      <small style="display:block;color:#64748b;text-transform:uppercase;font-weight:900">Nueva fecha y hora</small>
+                      <strong>{{ successNewDateTime }}</strong>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px">
+                    <span class="material-symbols-outlined" style="color:#075fab">person_check</span>
+                    <div>
+                      <small style="display:block;color:#64748b;text-transform:uppercase;font-weight:900">Profesional</small>
+                      <strong>{{ successProfessional }}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <button mat-raised-button color="primary" class="confirm-btn" type="button" (click)="goAppointments()">
+                  Volver a citas programadas
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </div>
+            </ng-template>
+          </section>
+
+          <section class="tip-card">
+            <div>
+              <span class="material-symbols-outlined">lightbulb</span>
+            </div>
+            <div>
+              <h4>&iquest;Sab&iacute;as que...?</h4>
+              <p>Reprogramar con antelaci&oacute;n ayuda a otros pacientes a ocupar tu lugar y recibir el apoyo que necesitan.</p>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
