@@ -1,0 +1,279 @@
+﻿<div class="booking-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined">spa</span>
+      </div>
+      <div>
+        <h1>MindCare</h1>
+        <p>Bienestar Emocional</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/patient-dashboard">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a routerLink="/emotion-history">
+        <span class="material-symbols-outlined">history</span>
+        Historial
+      </a>
+      <a class="active" routerLink="/agendar-cita">
+        <span class="material-symbols-outlined">event_note</span>
+        Citas
+      </a>
+      <a routerLink="/patient-profile">
+        <span class="material-symbols-outlined">account_circle</span>
+        Perfil
+      </a>
+    </nav>
+
+    <button mat-button class="logout" type="button" (click)="logout()">
+      <span class="material-symbols-outlined">logout</span>
+      Cerrar sesi&oacute;n
+    </button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <nav class="breadcrumb">
+        <span class="material-symbols-outlined">home</span>
+        <span>/</span>
+        <a routerLink="/agendar-cita">Citas</a>
+        <span>/</span>
+        <strong>Nueva reserva</strong>
+      </nav>
+
+      <div class="top-actions">
+        <div class="search">
+          <span class="material-symbols-outlined">search</span>
+          <input matInput type="search" placeholder="Buscar...">
+        </div>
+        <button mat-button type="button" aria-label="Notificaciones">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button mat-button type="button" aria-label="Configuraci&oacute;n">
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <div class="avatar">P</div>
+      </div>
+    </header>
+
+    <section class="content">
+      <header class="page-header">
+        <button mat-button class="back-btn" type="button" (click)="goBack()">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver atr&aacute;s
+        </button>
+        <h2>Reservar nueva cita</h2>
+        <p>Selecciona a un profesional y el horario que mejor se adapte a ti.</p>
+      </header>
+
+      <div *ngIf="errorMessage" class="alert">
+        <span class="material-symbols-outlined">error</span>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <div class="booking-grid">
+        <div class="left-column">
+          <section class="step-card">
+            <div class="step-title">
+              <span class="step-number">1</span>
+              <h3>Selecci&oacute;n de Profesional</h3>
+            </div>
+
+            <div *ngIf="loadingProfessionals" class="empty-state">Cargando profesionales...</div>
+
+            <div *ngIf="!loadingProfessionals && professionals.length > 0" class="professionals-grid">
+              <button
+                *ngFor="let professional of professionals"
+                type="button"
+                class="professional-card"
+                [class.selected]="isSelectedProfessional(professional)"
+                (click)="selectProfessional(professional)"
+              >
+                <div class="professional-avatar">
+                  <span class="material-symbols-outlined">person</span>
+                </div>
+                <div class="professional-info">
+                  <strong>{{ professional.nombre || professional.correo || 'Profesional' }}</strong>
+                  <small>{{ professional.especialidad || 'Especialista MindCare' }}</small>
+                  <div class="tags">
+                    <span *ngFor="let tag of tags(professional)">{{ tag }}</span>
+                  </div>
+                </div>
+                <span *ngIf="isSelectedProfessional(professional)" class="material-symbols-outlined check">check_circle</span>
+              </button>
+            </div>
+
+            <p *ngIf="!loadingProfessionals && professionalMessage" class="empty-state">{{ professionalMessage }}</p>
+          </section>
+
+          <section class="step-card" [class.locked]="!canPickSchedule">
+            <div class="step-title">
+              <span class="step-number">2</span>
+              <div>
+                <h3>Selecci&oacute;n de Fecha y Hora</h3>
+                <p *ngIf="!canPickSchedule" class="flow-hint">Primero selecciona un profesional para habilitar la fecha y los horarios.</p>
+              </div>
+            </div>
+
+            <div class="date-time-grid">
+              <div class="calendar">
+                <div class="calendar-head">
+                  <h5>{{ monthLabel }}</h5>
+                  <div>
+                    <button mat-button type="button" (click)="previousMonth()">
+                      <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button mat-button type="button" (click)="nextMonth()">
+                      <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="weekdays">
+                  <span>LU</span><span>MA</span><span>MI</span><span>JU</span><span>VI</span><span>SA</span><span>DO</span>
+                </div>
+
+                <div class="days">
+                  <button mat-button
+                    *ngFor="let day of calendarDays"
+                    type="button"
+                    [class.muted]="day.muted"
+                    [class.today]="day.today"
+                    [class.selected]="appointmentDate === day.date"
+                    [disabled]="day.muted || !canPickSchedule"
+                    (click)="selectDate(day.date, day.muted)"
+                  >
+                    {{ day.day }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="time-panel">
+                <h5>Horarios disponibles</h5>
+                <div class="slots-grid">
+                  <button mat-button
+                    *ngFor="let slot of slots"
+                    type="button"
+                    class="slot-card"
+                    [class.selected]="selectedSlot === slot"
+                    [disabled]="!canPickSchedule || !appointmentDate"
+                    (click)="selectSlot(slot)"
+                  >
+                    {{ formatSlot(slot) }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="right-column">
+          <section class="input-card">
+            <label>
+              <span class="mini-step">3</span>
+              Motivo de la consulta
+              <textarea matInput
+                rows="4"
+                name="motivoConsulta"
+                placeholder="Ej. Gesti&oacute;n del estr&eacute;s laboral..."
+                [(ngModel)]="motivoConsulta"
+              ></textarea>
+            </label>
+
+            <label>
+              <span class="mini-step">4</span>
+              Notas adicionales
+              <textarea matInput
+                rows="3"
+                name="notas"
+                placeholder="Alg&uacute;n detalle adicional..."
+                [(ngModel)]="notas"
+              ></textarea>
+            </label>
+          </section>
+
+          <section class="summary-card">
+            <ng-container *ngIf="!successConfirmed; else appointmentSuccess">
+              <h4>Resumen de cita</h4>
+
+              <div class="summary-item">
+                <span class="material-symbols-outlined">person_check</span>
+                <div>
+                  <small>Profesional</small>
+                  <p>{{ professionalSummary }}</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <span class="material-symbols-outlined">badge</span>
+                <div>
+                  <small>Especialidad</small>
+                  <p>{{ selectedSpecialty }}</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <span class="material-symbols-outlined">event</span>
+                <div>
+                  <small>Fecha</small>
+                  <p>{{ dateSummary }}</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <span class="material-symbols-outlined">schedule</span>
+                <div>
+                  <small>Horario</small>
+                  <p>{{ slotSummary }}</p>
+                </div>
+              </div>
+
+              <button mat-raised-button color="primary" class="confirm-btn" type="button" (click)="confirm()" [disabled]="loading || loadingProfessionals">
+                {{ loading ? 'Confirmando...' : 'Confirmar cita' }}
+              </button>
+
+              <button class="cancel-btn" type="button" (click)="goBack()">Cancelar</button>
+            </ng-container>
+
+            <ng-template #appointmentSuccess>
+              <div style="background:#fff;color:#0d1c2f;border-radius:22px;padding:28px 22px;text-align:center;box-shadow:0 18px 34px rgba(0,0,0,.14)">
+                <div style="width:72px;height:72px;border-radius:999px;background:#b2efe0;color:#0e5046;display:grid;place-items:center;margin:0 auto 18px">
+                  <span class="material-symbols-outlined" style="font-size:42px;font-variation-settings:'FILL' 1">check_circle</span>
+                </div>
+                <h4 style="margin:0 0 10px;color:#0d1c2f">Cita confirmada con &eacute;xito</h4>
+                <p style="margin:0 0 20px;color:#64748b;font-size:13px;line-height:1.5">Tu cita ha sido agendada correctamente.</p>
+
+                <div style="background:#eff4ff;border-radius:12px;padding:14px;text-align:left;margin-bottom:22px">
+                  <div style="display:flex;gap:10px;margin-bottom:12px">
+                    <span class="material-symbols-outlined" style="color:#075fab">event</span>
+                    <div>
+                      <small style="display:block;color:#64748b;text-transform:uppercase;font-weight:900">Fecha y hora</small>
+                      <strong>{{ successDateTime }}</strong>
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:10px">
+                    <span class="material-symbols-outlined" style="color:#075fab">person_check</span>
+                    <div>
+                      <small style="display:block;color:#64748b;text-transform:uppercase;font-weight:900">Profesional</small>
+                      <strong>{{ successProfessional }}</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <button mat-raised-button color="primary" class="confirm-btn" type="button" (click)="goBack()">
+                  Volver a citas programadas
+                  <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+              </div>
+            </ng-template>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+
