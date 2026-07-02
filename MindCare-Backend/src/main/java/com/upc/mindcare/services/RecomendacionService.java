@@ -94,7 +94,7 @@ public class RecomendacionService implements IRecomendacionService {
         }
         return dto.getEstadoEmocional() + ". Riesgo " + dto.getNivelRiesgo().toLowerCase(Locale.ROOT) + ".";
     }
-
+    //Lógica del servicio para evaluar la intensidad emocional reciente del paciente y emitir alertas
     @Override
     public String generarAlertaPreventiva(Long pacienteId) {
         validarPacienteExiste(pacienteId);
