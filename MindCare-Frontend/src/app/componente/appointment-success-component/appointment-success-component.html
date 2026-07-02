@@ -1,0 +1,36 @@
+<div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-on-surface/20 backdrop-blur-sm">
+<div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-10 text-center flex flex-col items-center gap-8 border border-surface-variant">
+<div class="relative">
+<div class="w-24 h-24 bg-secondary-container rounded-full flex items-center justify-center shadow-lg shadow-secondary/10">
+<span class="material-symbols-outlined text-secondary text-5xl font-bold" style="font-variation-settings: 'FILL' 0, 'wght' 700;">check_circle</span>
+</div>
+<div class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center border-2 border-secondary-container shadow-sm">
+<span class="material-symbols-outlined text-secondary text-lg">celebration</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-bold text-xl">Cita confirmada con &eacute;xito</h2>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Tu cita ha sido agendada correctamente. Recibir&aacute;s un correo electr&oacute;nico con los detalles.</p>
+</div>
+<div class="w-full bg-surface-container-low rounded-2xl p-4 flex flex-col gap-3 text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<div>
+<p class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Fecha y Hora</p>
+<p class="text-body-md font-label-md text-on-surface font-semibold">{{ successDateTime }}</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">person_check</span>
+<div>
+<p class="text-label-sm font-label-sm text-outline uppercase tracking-wider">Profesional</p>
+<p class="text-body-md font-label-md text-on-surface font-semibold">{{ successDoctor }}</p>
+</div>
+</div>
+</div>
+<a mat-raised-button color="primary" routerLink="/patient-dashboard" class="w-full py-4 px-6 rounded-full font-label-md text-body-md transition-all active:scale-[0.98] shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+Volver al Dashboard
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
