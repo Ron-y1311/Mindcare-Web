@@ -31,6 +31,7 @@ public class RecomendacionController {
         return recomendacionService.generarRecomendacionesPersonalizadas(pacienteId);
     }
 
+    //Implementar endpoint GET de evaluacion de estado emocional
     @GetMapping("/paciente/{pacienteId}/estado")
     @PreAuthorize("hasRole('PACIENTE')")
     public String evaluarEstadoEmocional(@PathVariable Long pacienteId) {
