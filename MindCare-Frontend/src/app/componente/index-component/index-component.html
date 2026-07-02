@@ -1,0 +1,291 @@
+<!-- Header/Navigation -->
+    <header class="header" [class.scrolled]="isHeaderScrolled">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <img src="assets/images/LogoMindCare.png" alt="MindCare Logo" class="logo-img">
+                    <h1>MindCare</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#problema">Problema</a></li>
+                    <li><a href="#solucion">Solución</a></li>
+                    <li><a href="#caracteristicas">Características</a></li>
+                    <li><a href="#como-funciona">Cómo funciona</a></li>
+                    <!-- BOTONES LOGIN Y REGISTRAR -->
+                    <li class="nav-auth">
+                        <a routerLink="/login" class="btn-login">Login</a>
+                        <a routerLink="/register" class="btn-registrar">Registrar</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Gestión Inteligente del <br> <span>Bienestar Emocional</span></h2>
+                <p>MindCare es una plataforma tecnológica diseñada para ayudarte a reducir estrés y ansiedad mediante inteligencia artificial simulada, técnicas de relajación guiadas y seguimiento personalizado de tu estado emocional.</p>
+                <div class="hero-buttons">
+                    <button mat-raised-button color="primary" class="btn btn-primary" (click)="scrollToSection('contacto')">Comenzar ahora</button>
+                    <button mat-stroked-button color="primary" class="btn btn-secondary" (click)="scrollToSection('solucion')">Conocer más</button>
+                </div>
+            </div>
+            <div class="hero-image">
+            <!-- Aquí va tu imagen -->
+                <img src="assets/images/hero-illustration.png" alt="MindCare Illustration" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Problema Section -->
+    <section id="problema" class="problema">
+        <div class="container">
+            <h2>El Problema: Salud Mental en Crisis</h2>
+            <p class="section-subtitle">Estadísticas alarmantes en adultos jóvenes y universitarios</p>
+
+            <div class="problema-grid">
+                <div class="problema-card" [style.transform]="problemCardTransforms[0]" (mousemove)="handleTilt(0, $event)" (mouseleave)="resetTilt(0)">
+                    <div class="problema-number">↑ 38%</div>
+                    <p>Incremento de trastornos mentales durante la pandemia</p>
+                </div>
+                <div class="problema-card" [style.transform]="problemCardTransforms[1]" (mousemove)="handleTilt(1, $event)" (mouseleave)="resetTilt(1)">
+                    <div class="problema-number">1 de 3</div>
+                    <p>Adultos jóvenes sufren de ansiedad o depresión</p>
+                </div>
+                <div class="problema-card" [style.transform]="problemCardTransforms[2]" (mousemove)="handleTilt(2, $event)" (mouseleave)="resetTilt(2)">
+                    <div class="problema-number">70%</div>
+                    <p>Desconocen o evitan buscar ayuda profesional</p>
+                </div>
+                <div class="problema-card" [style.transform]="problemCardTransforms[3]" (mousemove)="handleTilt(3, $event)" (mouseleave)="resetTilt(3)">
+                    <div class="problema-number">⚡</div>
+                    <p>Falta de soluciones modernas y accesibles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solución Section -->
+    <section id="solucion" class="solucion">
+        <div class="container">
+            <h2>Nuestra Solución: MindCare</h2>
+            <p class="section-subtitle">Una plataforma moderna, accesible e inteligente</p>
+
+            <div class="solucion-content">
+                <div class="solucion-text">
+                    <h3>Diseñado para ti</h3>
+                    <p>MindCare combina acompañamiento personalizado con Machine Learning simulado para ofrecerte recomendaciones adaptadas a tu perfil emocional. Nuestra plataforma es intuitiva, segura y completamente confidencial.</p>
+
+                    <ul class="benefits-list">
+                        <li>Análisis personalizado de tu estado emocional</li>
+                        <li>Recomendaciones basadas en patrones de comportamiento</li>
+                        <li>Técnicas de relajación guiadas y ejercicios de mindfulness</li>
+                        <li>Alertas preventivas de cambios emocionales</li>
+                        <li>Datos seguros y privados</li>
+                        <li>Acceso desde cualquier dispositivo</li>
+                    </ul>
+                </div>
+                <div class="solucion-image">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <img src="assets/images/Imagen_IA_Solucion.png" alt="IA Simulada" class="feature-img">
+                        </div>
+                        <p>IA Simulada</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <img src="assets/images/Imagen_Solucion_Personalizacion.png" alt="Personalizado" class="feature-img">
+                        </div>
+                        <p>Personalizado</p>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <img src="assets/images/Imagen_Seguridad_Solucion.png" alt="Seguro" class="feature-img">
+                        </div>
+                        <p>Seguro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características Section -->
+    <section id="caracteristicas" class="caracteristicas">
+        <div class="container">
+            <h2>Características Principales</h2>
+            <p class="section-subtitle">Todo lo que necesitas para cuidar tu bienestar</p>
+
+            <div class="carousel-outer">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" [style.transform]="carouselTransform" (mouseenter)="pauseAutoplay()" (mouseleave)="startAutoplay()">
+                            <div class="carousel-slide" *ngFor="let feature of features">
+                                <div class="caracteristica-card">
+                                    <div class="caracteristica-icon">
+                                        <img [src]="feature.image" [alt]="feature.alt">
+                                    </div>
+                                    <h3>{{ feature.title }}</h3>
+                                    <p>{{ feature.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-dots">
+                <button mat-button
+                    *ngFor="let dot of dots"
+                    type="button"
+                    class="carousel-dot"
+                    [class.active]="activeDot(dot)"
+                    (click)="goToDot(dot)"
+                    aria-label="Cambiar slide"
+                ></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cómo Funciona Section -->
+    <section id="como-funciona" class="como-funciona">
+        <div class="container">
+            <h2>¿Cómo Funciona el ML Simulado?</h2>
+            <p class="section-subtitle">La inteligencia artificial detrás de MindCare</p>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-image">
+                        <img src="assets/images/Imagen_Recopilacion.png" alt="Recopilación" class="step-icon">
+                    </div>
+                    <h3>Recopilación</h3>
+                    <p>Recolectamos datos mediante registros diarios de estado de ánimo, respuestas a actividades y patrones de comportamiento.</p>
+                </div>
+
+                <div class="step-arrow">→</div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-image">
+                        <img src="assets/images/Imagen_Analisis.png" alt="Análisis" class="step-icon">
+                    </div>
+                    <h3>Análisis</h3>
+                    <p>Nuestros algoritmos simulados procesan la información identificando patrones, tendencias y correlaciones en tus datos emocionales.</p>
+                </div>
+
+                <div class="step-arrow">→</div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-image">
+                        <img src="assets/images/Imagen_Prediccion.png" alt="Prediccion" class="step-icon">
+                    </div>
+                    <h3>Predicción</h3>
+                    <p>El sistema genera predicciones sobre cambios emocionales futuros basadas en los patrones identificados.</p>
+                </div>
+
+                <div class="step-arrow">→</div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-image">
+                        <img src="assets/images/Imagen_Recomendacion.png" alt="Recomendacion" class="step-icon">
+                    </div>
+                    <h3>Recomendaciones</h3>
+                    <p>MindCare sugiere técnicas, ejercicios y recursos específicamente adaptados a tus necesidades y perfil emocional.</p>
+                </div>
+            </div>
+
+            <div class="ml-details">
+                <div class="ml-text">
+                    <h3>Seguridad y Escalabilidad</h3>
+                    <p>MindCare está diseñado con <strong>seguridad de datos</strong> como prioridad máxima. Todos los datos personales están encriptados y protegidos bajo estándares de privacidad.</p>
+                    <p>Nuestro sistema es escalable y está preparado para integrar modelos reales de Machine Learning en el futuro, permitiendo una evolución continua sin afectar la experiencia del usuario.</p>
+                </div>
+                <div class ="ml-image">
+                    <img src="assets/images/Imagen_Seguridad_Escalabilidad.png" alt="Seguridad y Escalabilidad" class="ml-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impacto Section -->
+    <section class="impacto">
+        <div class="container">
+            <h2>Nuestro Impacto</h2>
+            <p class="section-subtitle">Comprometidos con la salud mental de adultos jóvenes</p>
+
+            <div class="impacto-grid">
+                <div class="impacto-item">
+                    <h4>Accesibilidad</h4>
+                    <p>Ofrecemos una solución moderna y económica, alejada de los servicios tradicionales costosos e inaccesibles para muchos.</p>
+                </div>
+                <div class="impacto-item">
+                    <h4>Prevención</h4>
+                    <p>Promovemos el autocuidado y la detección temprana de problemas de salud mental, evitando crisis mayores.</p>
+                </div>
+                <div class="impacto-item">
+                    <h4>Empoderamiento</h4>
+                    <p>Damos herramientas a los usuarios para entender y gestionar su bienestar emocional de forma independiente.</p>
+                </div>
+                <div class="impacto-item">
+                    <h4>Innovación</h4>
+                    <p>Combinamos tecnología con humanidad, creando soluciones que realmente marcan diferencia en la vida de las personas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contacto" class="cta-section">
+        <div class="container">
+            <h2>Comienza tu viaje hacia el bienestar</h2>
+            <p>&Uacute;nete a MindCare y toma control de tu salud mental hoy mismo</p>
+
+            <form class="cta-form" (ngSubmit)="handleSubscribe()"><input matInput type="email" name="subscribeEmail" placeholder="Tu correo electrónico" required [(ngModel)]="subscribeEmail"><button mat-raised-button color="primary" class="btn btn-primary" type="submit" [disabled]="subscribing">{{ subscribing ? 'Enviando...' : 'Acceder Beta' }}</button></form><p class="form-note" [style.color]="subscribeMessageColor">{{ subscribeMessage }}</p>
+
+            <div class="cta-contact">
+                <p>¿Preguntas? <a href="mailto:info@mindcare.com">Contáctanos</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>MindCare</h4>
+                    <p>Plataforma tecnológica para el cuidado de la salud mental</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <ul>
+                        <li><a href="#problema">Problema</a></li>
+                        <li><a href="#solucion">Solución</a></li>
+                        <li><a href="#caracteristicas">Características</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacidad</a></li>
+                        <li><a href="#">Términos</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MindCare. Todos los derechos reservados. | Hecho por estudiantes apasionados</p>
+            </div>
+        </div>
+    </footer>
