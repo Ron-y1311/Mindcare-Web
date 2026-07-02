@@ -1,0 +1,102 @@
+<nav class="sidebar">
+  <!-- Brand Section -->
+  <div class="sidebar-brand">
+    <div class="brand-icon">
+      <span class="material-symbols-outlined">
+        {{ userRole === 'ADMIN' ? 'psychology' : 'spa' }}
+      </span>
+    </div>
+    <div>
+      <h1>MindCare</h1>
+      <p>
+        {{ 
+          userRole === 'ADMIN' ? 'Administrador' : 
+          userRole.includes('PROF') ? 'Panel Profesional' : 
+          'Bienestar Emocional' 
+        }}
+      </p>
+    </div>
+  </div>
+
+  <!-- User Section (for Patient and Professional) -->
+  <div class="sidebar-user" *ngIf="userRole !== 'ADMIN'">
+    <div class="sidebar-avatar">{{ (userName || 'U').charAt(0) }}</div>
+    <div>
+      <p>Hola,</p>
+      <h3>{{ userName }}</h3>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div class="sidebar-menu">
+    <!-- Patient Menu -->
+    <ng-container *ngIf="userRole === 'PACIENTE' || userRole === ''">
+      <a class="menu-item" routerLink="/patient-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a class="menu-item" routerLink="/emotion-history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">history</span>
+        Historial
+      </a>
+      <a class="menu-item" routerLink="/agendar-cita" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">event_note</span>
+        Citas
+      </a>
+      <a class="menu-item" routerLink="/patient-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">account_circle</span>
+        Perfil
+      </a>
+    </ng-container>
+
+    <!-- Professional Menu -->
+    <ng-container *ngIf="userRole.includes('PROF')">
+      <a class="menu-item" routerLink="/professional-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a class="menu-item" routerLink="/professional-patients" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">group</span>
+        Pacientes
+      </a>
+      <a class="menu-item" routerLink="/professional-agenda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">calendar_today</span>
+        Citas
+      </a>
+      <a class="menu-item" routerLink="/professional-profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">person</span>
+        Perfil profesional
+      </a>
+    </ng-container>
+
+    <!-- Admin Menu -->
+    <ng-container *ngIf="userRole === 'ADMIN'">
+      <a class="menu-item" routerLink="/admin-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </a>
+      <a class="menu-item" routerLink="/admin-users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">group</span>
+        Usuarios
+      </a>
+      <a class="menu-item" routerLink="/admin-validate-professionals" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">verified_user</span>
+        Validaciones
+      </a>
+      <a class="menu-item" routerLink="/admin-reports" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">analytics</span>
+        Reportes
+      </a>
+      <a class="menu-item" routerLink="/admin-settings" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="material-symbols-outlined">settings</span>
+        Configuración
+      </a>
+    </ng-container>
+  </div>
+
+  <!-- Logout Button -->
+  <button class="logout-btn" type="button" (click)="logout()">
+    <span class="material-symbols-outlined">logout</span>
+    Cerrar sesión
+  </button>
+</nav>
