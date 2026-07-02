@@ -25,7 +25,7 @@ public class MedicacionPacienteService implements IMedicacionPacienteService {
 
     @Autowired
     private ModelMapper modelMapper;
-
+    //Implementar gestion de medicacion en service
     @Transactional
     public MedicacionPacienteDTO registrarMedicacion(MedicacionPacienteDTO dto) {
         Cita cita = citaRepositorio.findById(dto.getCitaId())

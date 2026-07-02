@@ -20,6 +20,7 @@ public class RecomendacionController {
 
     @GetMapping("/paciente/{pacienteId}")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar recomendaciones personalizadas en controller
     public RecomendacionDTO generarRecomendacionesPersonalizadas(@PathVariable Long pacienteId) {
         return recomendacionService.generarRecomendacionesPersonalizadas(pacienteId);
     }

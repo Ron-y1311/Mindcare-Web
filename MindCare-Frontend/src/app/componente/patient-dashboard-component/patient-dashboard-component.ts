@@ -1,3 +1,4 @@
+//Implemenatacion de la pantalla de Dashboard del paciente en TypeScript
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';

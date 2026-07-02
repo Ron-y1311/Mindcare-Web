@@ -28,6 +28,7 @@ public class RecomendacionService implements IRecomendacionService {
     private PacienteRepositorio pacienteRepositorio;
 
     @Override
+    //Implementar recomendaciones personalizadas en service
     public RecomendacionDTO generarRecomendacionesPersonalizadas(Long pacienteId) {
         validarPacienteExiste(pacienteId);
 

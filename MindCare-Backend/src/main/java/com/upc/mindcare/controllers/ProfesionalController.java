@@ -36,6 +36,7 @@ public class ProfesionalController {
 
     @PutMapping("/{id}/especialidades")
     @PreAuthorize("hasRole('PROFESIONAL')")
+    //Implementar asociar especialidades en controller
     public ProfesionalDTO asociarEspecialidades(
             @PathVariable Long id,
             @RequestBody List<Long> especialidadIds

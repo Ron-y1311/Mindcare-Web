@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+//Implementar configuracion swager
 public class OpenAPIConfig
 {
     @Bean

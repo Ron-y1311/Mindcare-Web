@@ -27,6 +27,7 @@ public class EncuestaController {
 
     @PostMapping("/encuesta-diaria")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar encuesta diaria en controller
     public EncuestaDTO crearEncuestaDiaria(@Valid @RequestBody EncuestaDTO dto) {
         return encuestaService.crearEncuestaDiaria(dto);
     }
@@ -69,7 +70,7 @@ public class EncuestaController {
     public List<EncuestaDTO> listarPendientes(@PathVariable Long pacienteId) {
         return encuestaService.listarEncuestasPendientesPorPaciente(pacienteId);
     }
-
+    //Declaracion del endpoint GET 
     @GetMapping("/paciente/{pacienteId}/resultados")
     @PreAuthorize("hasRole('PACIENTE')")
     public List<EncuestaDTO> consultarResultadosEncuestas(@PathVariable Long pacienteId) {

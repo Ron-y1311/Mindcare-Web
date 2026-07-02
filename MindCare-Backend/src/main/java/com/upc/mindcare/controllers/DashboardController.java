@@ -21,6 +21,7 @@ public class DashboardController {
 
     @GetMapping("/paciente/{pacienteId}")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar Dashboard en controller
     public DashboardDTO visualizarDashboardPersonal(@PathVariable Long pacienteId) {
         return dashboardService.visualizarDashboardPersonal(pacienteId);
     }
@@ -33,6 +34,7 @@ public class DashboardController {
 
     @GetMapping("/paciente/{pacienteId}/resumen")
     @PreAuthorize("hasRole('PACIENTE')")
+    //Implementar resumen emocional en controller
     public ResumenEmocionalDTO obtenerResumenEmocional(@PathVariable Long pacienteId) {
         return dashboardService.obtenerResumenEmocional(pacienteId);
     }

@@ -34,7 +34,9 @@ public class TrackingService implements ITrackingService {
 
 
     @Transactional
-    public TrackingDTO registrarEstadoEmocional(TrackingDTO dto) {
+    //Implementar registro emocional
+    public TrackingDTO
+    registrarEstadoEmocional(TrackingDTO dto) {
         Paciente paciente = pacienteRepositorio.findById(dto.getPacienteId())
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
 
@@ -67,6 +69,7 @@ public class TrackingService implements ITrackingService {
     }
 
     @Transactional
+    //Implementar registro de reflexion diaria en services
     public TrackingDTO registrarReflexionDiaria(Long trackingId, TrackingDTO dto) {
         Tracking tracking = trackingRepositorio.findById(trackingId)
                 .orElseThrow(() -> new RuntimeException("Tracking no encontrado"));
