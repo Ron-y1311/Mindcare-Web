@@ -1,0 +1,108 @@
+<div class="login-page">
+  <section class="login-brand">
+    <a routerLink="/home" class="brand-logo">
+      <span class="material-symbols-outlined">self_improvement</span>
+      <span>MindCare</span>
+    </a>
+
+    <div class="brand-center">
+      <div class="brand-image">
+        <img src="assets/images/Login.png" alt="Imagen login">
+      </div>
+
+      <h2>Tu bienestar emocional comienza con un paso seguro</h2>
+    </div>
+
+    <p class="brand-footer">&copy; 2024 MindCare. Espacio seguro.</p>
+  </section>
+
+  <section class="login-content">
+    <div class="login-card">
+      <div class="mobile-logo">
+        <a routerLink="/home" class="brand-logo">
+          <span class="material-symbols-outlined">self_improvement</span>
+          <span>MindCare</span>
+        </a>
+      </div>
+
+      <div class="login-title">
+        <h1>Inicia Sesi&oacute;n</h1>
+        <p>Accede a tu espacio seguro de bienestar</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-error">
+        <span class="material-symbols-outlined">error</span>
+        <div>
+          <strong>Credenciales incorrectas</strong>
+          <p>{{ errorMessage }}</p>
+        </div>
+      </div>
+
+      <form class="login-form material-form" (ngSubmit)="submit()" #loginForm="ngForm">
+        <mat-form-field appearance="outline" class="full-field">
+          <mat-label>Correo electr&oacute;nico</mat-label>
+          <span matPrefix class="material-symbols-outlined field-icon">mail</span>
+          <input
+            matInput
+            id="email"
+            name="email"
+            placeholder="tu@correo.com"
+            required
+            type="email"
+            [(ngModel)]="correo"
+          >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-field">
+          <mat-label>Contrase&ntilde;a</mat-label>
+          <span matPrefix class="material-symbols-outlined field-icon">lock</span>
+          <input
+            matInput
+            id="password"
+            name="password"
+            placeholder="************"
+            required
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+          >
+          <button mat-icon-button matSuffix type="button" (click)="togglePassword()" aria-label="Mostrar u ocultar contrase&ntilde;a">
+            <span class="material-symbols-outlined">{{ showPassword ? 'visibility' : 'visibility_off' }}</span>
+          </button>
+        </mat-form-field>
+
+        <div class="login-options">
+          <mat-checkbox name="remember" [(ngModel)]="remember">Recordarme</mat-checkbox>
+
+          <a routerLink="/forgot-password">&iquest;Olvidaste tu contrase&ntilde;a?</a>
+        </div>
+
+        <button mat-raised-button color="primary" class="btn-login material-primary" type="submit" [disabled]="loading || loginForm.invalid">
+          <span>{{ loading ? 'Ingresando...' : 'Ingresar' }}</span>
+          <span class="material-symbols-outlined">login</span>
+        </button>
+
+        <div class="separator">
+          <span></span>
+          <p>o</p>
+          <span></span>
+        </div>
+
+        <button mat-stroked-button color="primary" class="btn-register" type="button" (click)="goRegister()">
+          Crear cuenta
+        </button>
+
+        <div class="extra-links">
+          <a routerLink="/professional-register">
+            <span class="material-symbols-outlined">medical_services</span>
+            Registro Profesional
+          </a>
+
+          <a routerLink="/admin-login">
+            <span class="material-symbols-outlined">admin_panel_settings</span>
+            Acceso Admin
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
