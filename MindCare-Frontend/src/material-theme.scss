@@ -1,0 +1,69 @@
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: (
+        plain-family: 'Inter',
+        brand-family: 'Inter',
+        bold-weight: 800,
+        medium-weight: 600,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+}
+
+:root {
+  --mindcare-font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: var(--mindcare-font-family);
+}
+
+body {
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+button,
+input,
+textarea,
+select,
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-form-field,
+.mat-mdc-checkbox,
+.mat-mdc-select,
+.mat-mdc-option,
+.mat-mdc-table,
+.mdc-button,
+.mdc-floating-label,
+.mdc-text-field__input,
+.mdc-list-item__primary-text {
+  font-family: var(--mindcare-font-family) !important;
+}
+
+.mat-mdc-form-field {
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.mat-mdc-form-field .mat-mdc-floating-label,
+.mat-mdc-form-field .mat-mdc-input-element,
+.mat-mdc-select-value {
+  letter-spacing: 0;
+}

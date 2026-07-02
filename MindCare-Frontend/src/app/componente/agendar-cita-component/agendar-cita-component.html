@@ -1,0 +1,173 @@
+<div class="appointments-layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="appointments-main">
+    <header class="appointments-header">
+      <div>
+        <h2>Agenda de citas</h2>
+        <p>Gestiona tus consultas profesionales de forma sencilla</p>
+      </div>
+
+      <button mat-button class="header-action">
+        <span class="material-symbols-outlined">notifications</span>
+      </button>
+    </header>
+
+    <section class="appointments-content">
+      <section class="next-section">
+        <p class="section-label">Próxima consulta</p>
+
+        <div class="next-card">
+          <div class="date-box">
+            <span>{{ parseDateTime(nextAppointment?.fecha).month }}</span>
+            <strong>{{ parseDateTime(nextAppointment?.fecha).day }}</strong>
+          </div>
+
+          <div class="next-info">
+            <span class="status-badge">{{ statusText(nextAppointment?.estadoCitaId) }}</span>
+            <h3>{{ nextAppointment?.nombreProfesional || 'Sin cita programada' }}</h3>
+            <p>{{ nextAppointment ? 'Consulta psicológica' : 'Agenda una nueva cita para comenzar.' }}</p>
+            <small>{{ parseDateTime(nextAppointment?.fecha).dateText }} - {{ parseDateTime(nextAppointment?.fecha).timeText }}</small>
+          </div>
+
+          <div class="next-actions">
+            <button mat-button class="btn-outline" type="button" routerLink="/reprogram-appointment" [disabled]="!nextAppointment">Reprogramar</button><button mat-stroked-button class="btn-status" type="button" disabled><span class="material-symbols-outlined button-icon">info</span>{{ patientAppointmentStateText(nextAppointment) }}</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="appointments-grid">
+        <div class="appointments-left">
+          <div class="list-header">
+            <h3>Próximas citas</h3>
+            <button mat-button (click)="goBookAppointment()">Reservar nueva cita</button>
+          </div>
+
+          <div class="appointments-list">
+            <div *ngIf="loading" class="appointment-item">
+              <div class="appointment-info">
+                <div class="appointment-avatar"><span class="material-symbols-outlined">hourglass_empty</span></div>
+                <div><h4>Cargando citas...</h4><p>Un momento por favor.</p></div>
+              </div>
+            </div>
+
+            <div *ngIf="!loading && upcoming.length === 0" class="appointment-item">
+              <div class="appointment-info">
+                <div class="appointment-avatar"><span class="material-symbols-outlined">event_busy</span></div>
+                <div><h4>No tienes citas próximas</h4><p>Reserva una nueva cita para verla aquí.</p></div>
+              </div>
+            </div>
+
+            <div *ngFor="let appointment of upcoming" class="appointment-item">
+              <div class="appointment-info">
+                <div class="appointment-avatar"><span class="material-symbols-outlined">psychology</span></div>
+                <div>
+                  <h4>{{ appointment.nombreProfesional || 'Profesional' }}</h4>
+                  <p>{{ parseDateTime(appointment.fecha).dateText }} - {{ parseDateTime(appointment.fecha).timeText }} · Consulta</p>
+                </div>
+              </div>
+              <div class="appointment-actions">
+                <span class="badge" [ngClass]="statusClass(appointment.estadoCitaId)">{{ statusText(appointment.estadoCitaId) }}</span>
+                <span class="material-symbols-outlined">more_vert</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="appointments-right">
+          <button type="button" (click)="goBookAppointment()" class="new-card">
+            <span class="material-symbols-outlined">add_circle</span>
+            <strong>Reservar nueva cita</strong>
+            <p>Encuentra al profesional ideal</p>
+          </button>
+
+          <div class="summary-card">
+            <h4>Resumen mensual</h4>
+
+            <div class="summary-row">
+              <span>Citas confirmadas</span>
+              <strong>{{ confirmedCount }}</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Citas pendientes</span>
+              <strong>{{ pendingCount }}</strong>
+            </div>
+
+            <div class="summary-row">
+              <span>Total de citas</span>
+              <strong>{{ appointments.length }}</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="history-section">
+        <h3>
+          <span class="material-symbols-outlined">history</span>
+          Historial de sesiones
+        </h3>
+
+        <div class="history-grid">
+          <div *ngIf="history.length === 0" class="history-card">
+            <small>Sin registros</small>
+            <h4>No hay historial de sesiones</h4>
+            <p>Cuando reserves o completes citas, aparecerán en esta sección.</p>
+          </div>
+
+          <div *ngFor="let appointment of history" class="history-card">
+            <small>{{ parseDateTime(appointment.fecha).dateText }} · {{ parseDateTime(appointment.fecha).timeText }}</small>
+            <h4>{{ appointment.nombreProfesional || 'Profesional' }}</h4>
+            <p>{{ appointment.motivoConsulta || 'Consulta de seguimiento emocional.' }}</p>
+
+            <!-- Historial de Valoración -->
+            <div *ngIf="appointment.idCita && reviewsByCita[appointment.idCita]" class="review-display" style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0;">
+              <span class="stars" style="color: #f59e0b; font-size: 15px; font-weight: bold; letter-spacing: 2px;">
+                {{ getStars(reviewsByCita[appointment.idCita].puntuacion) }}
+              </span>
+              <p class="comment" style="margin: 4px 0 0 0; font-size: 12px; color: #475569; font-style: italic;">
+                "{{ reviewsByCita[appointment.idCita].comentario }}"
+              </p>
+            </div>
+
+            <!-- Botón y formulario para calificar -->
+            <div *ngIf="appointment.idCita && !reviewsByCita[appointment.idCita]" class="review-action" style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #e2e8f0;">
+              <button *ngIf="activeRatingFormId !== appointment.idCita" mat-button class="btn-rate" (click)="openRatingForm(appointment.idCita)" style="height: 32px; font-size: 12px; font-weight: 700; color: #2563eb; border: 1px solid #dbe4f0; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; background: white;" type="button">
+                <span class="material-symbols-outlined" style="font-size: 16px;">rate_review</span> Valorar sesión
+              </button>
+
+              <div *ngIf="activeRatingFormId === appointment.idCita" class="rating-form" style="display: flex; flex-direction: column; gap: 8px; background: #f8fafc; border-radius: 12px; padding: 12px; border: 1px solid #e2e8f0;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span *ngFor="let star of [1,2,3,4,5]" 
+                        class="material-symbols-outlined star-icon" 
+                        [style.color]="star <= ratingScore ? '#f59e0b' : '#cbd5e1'"
+                        style="font-size: 24px; cursor: pointer; user-select: none; transition: color 0.15s;" 
+                        (click)="setRatingScore(star)">
+                    star
+                  </span>
+                </div>
+                <textarea placeholder="Deja tu comentario sobre la atenci&oacute;n recibida..." 
+                          [(ngModel)]="ratingComment" 
+                          rows="2"
+                          style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px; font-size: 12px; resize: none; font-family: inherit; box-sizing: border-box;"></textarea>
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                  <button mat-button (click)="cancelRatingForm()" style="font-size: 11px; font-weight: 700; height: 28px; color: #64748b;" type="button">
+                    Cancelar
+                  </button>
+                  <button mat-raised-button color="primary" 
+                          [disabled]="ratingScore === 0 || submittingRating" 
+                          (click)="submitRating(appointment)"
+                          style="font-size: 11px; font-weight: 700; height: 28px; border-radius: 6px;"
+                          type="button">
+                    {{ submittingRating ? 'Enviando...' : 'Enviar' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+

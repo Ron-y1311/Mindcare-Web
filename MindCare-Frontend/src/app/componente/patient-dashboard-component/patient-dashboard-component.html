@@ -1,0 +1,316 @@
+<div class="dashboard-layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <div>
+        <h2>Dashboard Personal</h2>
+        <p>Revisa c&oacute;mo ha evolucionado tu bienestar a lo largo del tiempo</p>
+      </div>
+
+      <button mat-button class="notification-btn" type="button">
+        <span class="material-symbols-outlined">notifications</span>
+        <span id="notifBadge"></span>
+      </button>
+    </header>
+
+    <section class="dashboard-content">
+      <section class="attention-card">
+        <div class="attention-icon">
+          <span class="material-symbols-outlined">info</span>
+        </div>
+
+        <div>
+          <h3>Nota de atenci&oacute;n</h3>
+          <p>
+            Se detect&oacute; una variaci&oacute;n menor en tus indicadores emocionales recientes.
+            Sugerimos revisar tu registro.
+          </p>
+        </div>
+      </section>
+
+      <section class="quick-actions">
+        <button mat-raised-button color="primary" (click)="go('/emotion-log')" class="action-btn primary" type="button">
+          <span class="material-symbols-outlined">add_reaction</span>
+          Registrar estado emocional
+        </button>
+
+        <button mat-stroked-button color="primary" (click)="go('/patient-survey')" class="action-btn secondary" type="button">
+          <span class="material-symbols-outlined">fact_check</span>
+          Responder encuesta diaria
+        </button>
+
+        <button mat-stroked-button color="primary" (click)="go('/agendar-cita')" class="action-btn neutral" type="button">
+          <span class="material-symbols-outlined">calendar_month</span>
+          Agendar cita
+        </button>
+      </section>
+
+      <section class="summary-section">
+        <h3>Tu panorama hoy</h3>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-head">
+              <div class="summary-icon">
+                <span class="material-symbols-outlined">sentiment_satisfied</span>
+              </div>
+              <span>Estado actual</span>
+            </div>
+            <p>{{ mood }}</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-head">
+              <div class="summary-icon green">
+                <span class="material-symbols-outlined">assignment</span>
+              </div>
+              <span>&Uacute;ltima encuesta</span>
+            </div>
+            <small>Bienestar general</small>
+            <p>{{ survey }}</p>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-head">
+              <div class="summary-icon">
+                <span class="material-symbols-outlined">event</span>
+              </div>
+              <span>Pr&oacute;xima cita</span>
+            </div>
+            <p>{{ aptDate }}</p>
+            <small>{{ aptTime }}</small>
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-head">
+              <div class="summary-icon dark">
+                <span class="material-symbols-outlined">vital_signs</span>
+              </div>
+              <span>Nivel de bienestar</span>
+            </div>
+
+            <div class="progress-track">
+              <div class="progress-bar" [style.width.%]="progress"></div>
+            </div>
+
+            <p>{{ wellbeingText }}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-bottom">
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- Evolución Emocional Chart -->
+          <div class="chart-card" style="min-height: auto;">
+            <div class="section-title">
+              <h3>Evoluci&oacute;n emocional</h3>
+            </div>
+
+            <div class="chart-box">
+              <svg viewBox="0 0 500 200">
+                <defs>
+                  <linearGradient id="wellbeingArea" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#2563eb" stop-opacity="0.22"/>
+                    <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="45" y1="28" x2="45" y2="162" stroke="#dbe4f0" stroke-width="1"/>
+                <line x1="45" y1="162" x2="475" y2="162" stroke="#dbe4f0" stroke-width="1"/>
+                <text *ngIf="chartPoints.length === 0" x="250" y="100" text-anchor="middle" fill="#64748b" font-size="16">No hay registros emocionales</text>
+                <polygon *ngIf="chartPoints.length > 0" [attr.points]="chartArea" fill="url(#wellbeingArea)"/>
+                <polyline *ngIf="chartPoints.length > 0" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" [attr.points]="chartLine"/>
+                <ng-container *ngFor="let point of chartPoints">
+                  <circle [attr.cx]="point.x" [attr.cy]="point.y" r="6" fill="#2563eb"/>
+                  <text [attr.x]="point.x" [attr.y]="point.y - 13" text-anchor="middle" font-size="11" fill="#1e293b" font-weight="600">{{ point.value }}</text>
+                </ng-container>
+                <text x="45" y="195" font-size="11" fill="#64748b">Intensidad emocional (1-10)</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Fila de Widgets de Autocuidado y Relajación -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Widget 1: Mis Recomendaciones y Tareas (IA/ML) -->
+            <div class="chart-card" style="min-height: 280px; padding: 24px; display: flex; flex-direction: column; justify-content: flex-start; box-shadow: 0 12px 30px rgba(37, 99, 235, 0.04);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="material-symbols-outlined" style="color: #2563eb; font-size: 24px;">psychology</span>
+                  <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #0d1c2f;">Tareas y Recomendaciones (ML)</h3>
+                </div>
+                <span class="ml-badge-status">
+                  <span class="ml-pulse"></span> ML Activo
+                </span>
+              </div>
+
+              <!-- Resumen Inteligente -->
+              <p class="ml-summary-text">
+                IA sugiere estas tareas según tu estado de ánimo <strong>{{ mood }}</strong> y tendencia <strong>{{ recommendationTrend }}</strong>:
+              </p>
+
+              <!-- Lista de Recomendaciones Dinámicas (IA) -->
+              <div class="recommendations-container" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <div *ngFor="let rec of mappedRecommendations" class="rec-item-card" [ngClass]="{'completed': rec.completed}">
+                  <div class="rec-item-main" (click)="rec.completed = !rec.completed">
+                    <span class="material-symbols-outlined rec-icon" [ngClass]="rec.category">{{ rec.icon }}</span>
+                    <div class="rec-item-info">
+                      <div style="display: flex; align-items: center; gap: 6px;">
+                        <span class="priority-badge" [ngClass]="rec.priority.toLowerCase()">{{ rec.priority }}</span>
+                        <span class="category-badge">{{ rec.category }}</span>
+                      </div>
+                      <p class="rec-text">{{ rec.text }}</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Retroalimentación IA/ML -->
+                  <div class="rec-feedback-controls">
+                    <span class="feedback-label">¿Útil?</span>
+                    <button class="feedback-btn like" [ngClass]="{'active': rec.rating === 'like'}" (click)="calificarRecomendacion(rec, 'like')" title="Sugerencia útil" type="button">
+                      <span class="material-symbols-outlined">thumb_up</span>
+                    </button>
+                    <button class="feedback-btn dislike" [ngClass]="{'active': rec.rating === 'dislike'}" (click)="calificarRecomendacion(rec, 'dislike')" title="No me ayuda" type="button">
+                      <span class="material-symbols-outlined">thumb_down</span>
+                    </button>
+                    <span class="material-symbols-outlined check-status-icon" (click)="rec.completed = !rec.completed">
+                      {{ rec.completed ? 'check_circle' : 'radio_button_unchecked' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Medicación Activa si existe -->
+              <div *ngIf="medications.length > 0" class="medications-section" style="margin-top: 16px; border-top: 1px solid #e2e8f0; padding-top: 12px; width: 100%;">
+                <h4 style="margin: 0 0 10px 0; font-size: 13px; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 6px;">
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #2563eb;">pill</span>
+                  Medicamentos del Tratamiento
+                </h4>
+                <div class="medications-container" style="display: flex; flex-direction: column; gap: 8px;">
+                  <div *ngFor="let med of medications" class="med-item-card">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <span class="material-symbols-outlined" style="color: #2563eb; font-size: 20px;">medication</span>
+                      <div>
+                        <strong style="font-size: 13px; color: #1e293b;">{{ med.nombreMedicamento }}</strong>
+                        <p style="margin: 2px 0 0; font-size: 11px; color: #64748b;">{{ med.dosis }} - {{ med.frecuencia }}</p>
+                      </div>
+                    </div>
+                    <mat-checkbox color="primary" [checked]="false"></mat-checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Barra de Progreso general de recomendaciones -->
+              <div class="widget-progress-container" *ngIf="totalTasksCount > 0">
+                <div class="progress-info-row">
+                  <span>Recomendaciones realizadas</span>
+                  <strong>{{ completedTasksCount }}/{{ totalTasksCount }} ({{ progressPercentage }}%)</strong>
+                </div>
+                <div class="widget-progress-track">
+                  <div class="widget-progress-bar" [style.width.%]="progressPercentage"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Widget 2: Respirador Guiada (Mindfulness) -->
+            <div class="chart-card" style="min-height: 250px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 12px 30px rgba(37, 99, 235, 0.04);">
+              <div style="display: flex; align-items: center; gap: 8px; align-self: flex-start; margin-bottom: 4px;">
+                <span class="material-symbols-outlined" style="color: #0f766e; font-size: 24px;">self_improvement</span>
+                <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #0d1c2f;">Respirador 4-7-8</h3>
+              </div>
+
+              <!-- Breathing Circle Animation -->
+              <div style="display: flex; align-items: center; justify-content: center; height: 110px; width: 110px; position: relative;">
+                <div class="breathing-circle" [ngClass]="breathingPhase" 
+                     style="height: 70px; width: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15); color: white;">
+                  <span>{{ breathingText }}</span>
+                </div>
+              </div>
+
+              <!-- Action button -->
+              <button mat-raised-button [color]="breathingActive ? 'warn' : 'primary'" (click)="toggleBreathing()" style="min-width: 140px; border-radius: 12px; font-weight: 700; height: 40px;" type="button">
+                {{ breathingActive ? 'Detener' : 'Iniciar Relajaci&oacute;n' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="tip-card intelligence-card">
+          <div class="intelligence-head">
+            <div class="tip-icon intelligence-icon">
+              <span class="material-symbols-outlined">auto_awesome</span>
+            </div>
+
+            <span class="risk-badge" [ngClass]="riskClass()">
+              <span class="material-symbols-outlined">{{ riskIcon() }}</span>
+              {{ riskLabel() }}
+            </span>
+          </div>
+
+          <p class="eyebrow">ML simulado</p>
+          <h3>An&aacute;lisis inteligente</h3>
+
+          <p class="intelligence-message">{{ tipText }}</p>
+
+          <div class="risk-meter">
+            <div class="risk-meter-head">
+              <span>Bienestar estimado</span>
+              <strong>{{ recommendationScore }}/100</strong>
+            </div>
+            <div class="meter-track">
+              <div class="meter-fill" [ngClass]="wellbeingClass()" [style.width.%]="recommendationScore"></div>
+            </div>
+          </div>
+
+          <div class="trend-box">
+            <span class="material-symbols-outlined">trending_up</span>
+            <div>
+              <small>Tendencia detectada</small>
+              <strong>{{ recommendationTrend }}</strong>
+            </div>
+          </div>
+
+          <div *ngIf="detectedFactors.length > 0" class="analysis-factors">
+            <h4 style="font-size: 12px; font-weight: 700; color: #64748b; margin: 16px 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">analytics</span>
+              Variables de Análisis (ML)
+            </h4>
+            <ul class="tip-list" style="margin-bottom: 12px; padding-left: 0; list-style: none;">
+              <li *ngFor="let item of detectedFactors" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; margin-bottom: 6px;">
+                <span class="material-symbols-outlined" style="font-size: 16px; color: #0f766e;">done_all</span>
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="recommendationFactors.length > 0" class="recommendation-factors">
+            <h4 style="font-size: 12px; font-weight: 700; color: #64748b; margin: 16px 0 8px 0; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 16px;">psychology</span>
+              Sugerencias del Asistente
+            </h4>
+            <ul class="tip-list recommendation-list" style="padding-left: 0; list-style: none;">
+              <li *ngFor="let item of recommendationFactors">
+                <span class="material-symbols-outlined">check_circle</span>
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+
+          <button mat-raised-button color="primary" (click)="go(recommendationActionPath)" class="tip-link intelligence-action" type="button">
+            {{ recommendationActionLabel }}
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <!-- Toast de Notificaciones para Simulación de ML -->
+  <div class="ml-toast-container" [ngClass]="{'show': showFeedbackToast}">
+    <div class="ml-toast-content">
+      <span class="material-symbols-outlined toast-icon">auto_awesome</span>
+      <p>{{ feedbackMessage }}</p>
+    </div>
+  </div>
+</div>
+
+
+

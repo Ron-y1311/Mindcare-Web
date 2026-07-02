@@ -1,0 +1,173 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="admin-main">
+    <header class="topbar">
+      <div>
+        <h1>Gestion de usuarios</h1>
+        <p>Administra cuentas, roles y estados de acceso.</p>
+      </div>
+      <button mat-raised-button color="primary" type="button" (click)="cargar()">
+        <span class="material-symbols-outlined">refresh</span>
+        Actualizar
+      </button>
+    </header>
+
+    <section class="users-shell">
+      <mat-card class="hero-card">
+        <mat-card-content>
+          <p class="eyebrow">Usuarios</p>
+          <h2>Administracion de usuarios</h2>
+          <p>Consulta y supervisa las cuentas registradas en MindCare segun la informacion real del backend.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <div *ngIf="loading" class="state-banner">
+        <span class="material-symbols-outlined">hourglass_empty</span>
+        Cargando usuarios...
+      </div>
+
+      <div *ngIf="!loading && errorMessage" class="state-banner error">
+        <span class="material-symbols-outlined">error</span>
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!loading && successMessage" class="state-banner success">
+        <span class="material-symbols-outlined">check_circle</span>
+        {{ successMessage }}
+      </div>
+
+      <section class="metrics-grid">
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon blue"><span class="material-symbols-outlined">groups</span></div>
+            <p>Total de usuarios</p>
+            <strong>{{ totalUsuarios }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon mint"><span class="material-symbols-outlined">self_improvement</span></div>
+            <p>Pacientes</p>
+            <strong>{{ totalPacientes }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon green"><span class="material-symbols-outlined">medical_services</span></div>
+            <p>Profesionales</p>
+            <strong>{{ totalProfesionales }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon amber"><span class="material-symbols-outlined">verified_user</span></div>
+            <p>Cuentas activas</p>
+            <strong>{{ totalActivos }}</strong>
+          </mat-card-content>
+        </mat-card>
+      </section>
+
+      <mat-card class="filters-card">
+        <mat-card-content>
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Buscar usuario</mat-label>
+            <span matPrefix class="material-symbols-outlined">search</span>
+            <input matInput type="text" [(ngModel)]="search" placeholder="Nombre, usuario o correo">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rol</mat-label>
+            <mat-select [(ngModel)]="roleFilter">
+              <mat-option value="TODOS">Todos</mat-option>
+              <mat-option value="PACIENTE">Pacientes</mat-option>
+              <mat-option value="PROFESIONAL">Profesionales</mat-option>
+              <mat-option value="ADMIN">Administradores</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="statusFilter">
+              <mat-option value="TODOS">Todos</mat-option>
+              <mat-option value="ACTIVO">Activos</mat-option>
+              <mat-option value="INACTIVO">Inactivos</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="users-card">
+        <mat-card-header>
+          <span mat-card-avatar class="card-avatar material-symbols-outlined">manage_accounts</span>
+          <div>
+            <mat-card-title>Usuarios registrados</mat-card-title>
+            <mat-card-subtitle>Mostrando {{ filteredUsuarios.length }} de {{ usuarios.length }} cuenta(s)</mat-card-subtitle>
+          </div>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="table-wrap" *ngIf="filteredUsuarios.length > 0">
+            <table mat-table [dataSource]="filteredUsuarios">
+              <ng-container matColumnDef="usuario">
+                <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                <td mat-cell *matCellDef="let usuario">
+                  <div class="user-cell">
+                    <span>{{ initials(usuario.nombre) }}</span>
+                    <div>
+                      <strong>{{ usuario.nombre || 'Usuario MindCare' }}</strong>
+                      <small>{{ username(usuario) }} · ID {{ idUsuario(usuario) || '--' }}</small>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="correo">
+                <th mat-header-cell *matHeaderCellDef>Correo</th>
+                <td mat-cell *matCellDef="let usuario">{{ usuario.correo }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="rol">
+                <th mat-header-cell *matHeaderCellDef>Rol</th>
+                <td mat-cell *matCellDef="let usuario">
+                  <span [class]="roleClass(usuario)">{{ rol(usuario) }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                <td mat-cell *matCellDef="let usuario">
+                  <span class="status-chip" [class]="estadoClass(usuario)">{{ estadoUsuario(usuario) }}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let usuario">
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    color="primary"
+                    [disabled]="loading || !idUsuario(usuario)"
+                    (click)="toggleUser(usuario)">
+                    <span class="material-symbols-outlined">{{ isActive(usuario) ? 'block' : 'check_circle' }}</span>
+                    {{ isActive(usuario) ? 'Desactivar' : 'Activar' }}
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+
+          <div class="empty-state" *ngIf="!loading && filteredUsuarios.length === 0">
+            <span class="material-symbols-outlined">person_search</span>
+            <strong>No hay usuarios para mostrar</strong>
+            <p>Ajusta la busqueda o los filtros para revisar otras cuentas.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,101 @@
+<div class="survey-layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="survey-main">
+    <header class="survey-header">
+      <div>
+        <h2>{{ surveyTitle }}</h2>
+        <p>{{ surveySubtitle }}</p>
+      </div>
+
+      <img class="header-avatar" alt="Avatar del usuario" src="">
+    </header>
+
+    <section class="survey-content">
+      <div class="survey-card">
+        <div class="survey-card-header">
+          <div>
+            <h3>{{ surveyTitle }} de bienestar</h3>
+            <p>
+              <span class="material-symbols-outlined">schedule</span>
+              Preguntas sobre tu día
+            </p>
+          </div>
+
+          <div class="progress-box">
+            <div class="progress-text">
+              <span>Progreso</span>
+              <strong>{{ progress }}%</strong>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" [style.width.%]="progress"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-box">
+          <span class="question-counter">PREGUNTA {{ questionCounter }}</span>
+          <h4>{{ questionText }}</h4>
+
+          <div class="options-grid" *ngIf="!completed">
+            <button mat-button *ngFor="let value of options" type="button" class="survey-option" (click)="selectAnswer(value)">
+              {{ value }}
+            </button>
+          </div>
+        </div>
+
+        <div class="score-box">
+          <div class="score-icon">
+            <span class="material-symbols-outlined">analytics</span>
+          </div>
+
+          <div>
+            <p>Puntuación: <strong>{{ liveScore }}</strong></p>
+            <small>{{ liveScoreDescription }}</small>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="score-box">
+          <div class="score-icon">
+            <span class="material-symbols-outlined">error</span>
+          </div>
+          <div>
+            <p>{{ errorMessage }}</p>
+          </div>
+        </div>
+
+        <div class="survey-actions">
+          <button mat-button (click)="finish()" class="btn-finish" [disabled]="!completed || loading">
+            {{ loading ? 'Guardando...' : 'Finalizar encuesta' }}
+          </button>
+
+          <button mat-button (click)="verResultados()" class="btn-results">
+            Ver resultados anteriores
+          </button>
+
+          <button mat-button (click)="goBack()" class="btn-back">
+            Volver al Dashboard
+          </button>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <span class="material-symbols-outlined">lightbulb</span>
+          <div>
+            <h4>¿Sabías que...?</h4>
+            <p>Completar tu encuesta diaria ayuda a MindCare a identificar patrones de bienestar emocional.</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="material-symbols-outlined">shield_with_heart</span>
+          <div>
+            <h4>Privacidad garantizada</h4>
+            <p>Tus respuestas están protegidas y solo tú o tu terapeuta autorizado pueden revisarlas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

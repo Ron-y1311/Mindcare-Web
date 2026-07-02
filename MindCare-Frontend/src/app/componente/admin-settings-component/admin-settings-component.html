@@ -1,0 +1,249 @@
+<div class="admin-layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="admin-main">
+    <header class="topbar">
+      <div>
+        <h1>Configuracion administrativa</h1>
+        <p>Preferencias locales y estado operativo del sistema.</p>
+      </div>
+      <button mat-raised-button color="primary" type="button" (click)="cargar()">
+        <span class="material-symbols-outlined">refresh</span>
+        Actualizar
+      </button>
+    </header>
+
+    <section class="settings-shell">
+      <mat-card class="hero-card">
+        <mat-card-content>
+          <p class="eyebrow">Configuracion</p>
+          <h2>Consola del administrador</h2>
+          <p>Gestiona preferencias de interfaz y revisa el estado actual con informacion real del backend.</p>
+        </mat-card-content>
+      </mat-card>
+
+      <div *ngIf="loading" class="state-banner">
+        <span class="material-symbols-outlined">hourglass_empty</span>
+        Cargando estado administrativo...
+      </div>
+
+      <div *ngIf="!loading && errorMessage" class="state-banner error">
+        <span class="material-symbols-outlined">error</span>
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!loading && successMessage" class="state-banner success">
+        <span class="material-symbols-outlined">task_alt</span>
+        {{ successMessage }}
+      </div>
+
+      <section class="metrics-grid">
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon blue"><span class="material-symbols-outlined">groups</span></div>
+            <p>Usuarios</p>
+            <strong>{{ totalUsuarios }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon green"><span class="material-symbols-outlined">verified</span></div>
+            <p>Cuentas activas</p>
+            <strong>{{ totalActivos }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon amber"><span class="material-symbols-outlined">pending_actions</span></div>
+            <p>Validaciones pendientes</p>
+            <strong>{{ profesionalesPendientes }}</strong>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="metric-card">
+          <mat-card-content>
+            <div class="metric-icon mint"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+            <p>Administradores</p>
+            <strong>{{ administradores }}</strong>
+          </mat-card-content>
+        </mat-card>
+      </section>
+
+      <section class="settings-grid">
+        <mat-card class="profile-card">
+          <mat-card-header>
+            <span mat-card-avatar class="card-avatar material-symbols-outlined">business</span>
+            <div>
+              <mat-card-title>Perfil institucional</mat-card-title>
+              <mat-card-subtitle>Datos visibles solo en esta consola</mat-card-subtitle>
+            </div>
+          </mat-card-header>
+          <mat-card-content class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre de institucion</mat-label>
+              <input matInput type="text" [(ngModel)]="institutionName">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Correo de soporte</mat-label>
+              <input matInput type="email" [(ngModel)]="supportEmail">
+            </mat-form-field>
+            <div class="admin-card">
+              <div class="admin-avatar">A</div>
+              <div>
+                <span>Sesion actual</span>
+                <strong>{{ adminName }}</strong>
+                <p>{{ adminEmail || 'Correo no disponible' }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="security-card">
+          <mat-card-header>
+            <span mat-card-avatar class="card-avatar material-symbols-outlined">security</span>
+            <div>
+              <mat-card-title>Seguridad de sesion</mat-card-title>
+              <mat-card-subtitle>Preferencias locales del navegador</mat-card-subtitle>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <mat-form-field appearance="outline">
+              <mat-label>Tiempo de sesion visual</mat-label>
+              <mat-select [(ngModel)]="sessionTimeout">
+                <mat-option value="15">15 minutos</mat-option>
+                <mat-option value="30">30 minutos</mat-option>
+                <mat-option value="60">60 minutos</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-slide-toggle [(ngModel)]="emailAlerts">Mostrar alertas administrativas</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="compactMode">Modo compacto de paneles</mat-slide-toggle>
+            <p class="hint">La expiracion real del token se controla desde Spring Security/JWT en el backend.</p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="roles-card">
+          <mat-card-header>
+            <span mat-card-avatar class="card-avatar material-symbols-outlined">badge</span>
+            <div>
+              <mat-card-title>Roles registrados</mat-card-title>
+              <mat-card-subtitle>Resumen segun usuarios existentes</mat-card-subtitle>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="role-row">
+              <span class="material-symbols-outlined">shield_person</span>
+              <strong>Administradores</strong>
+              <b>{{ administradores }}</b>
+            </div>
+            <div class="role-row">
+              <span class="material-symbols-outlined">self_improvement</span>
+              <strong>Pacientes</strong>
+              <b>{{ pacientes }}</b>
+            </div>
+            <div class="role-row">
+              <span class="material-symbols-outlined">medical_services</span>
+              <strong>Profesionales</strong>
+              <b>{{ profesionalesUsuarios }}</b>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </section>
+      <section class="catalog-card">
+        <mat-card>
+          <mat-card-header>
+            <span mat-card-avatar class="card-avatar material-symbols-outlined">category</span>
+            <div>
+              <mat-card-title>Catalogos oficiales</mat-card-title>
+              <mat-card-subtitle>Administracion conectada a /api/catalogos segun US26</mat-card-subtitle>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="catalog-toolbar">
+              <mat-form-field appearance="outline">
+                <mat-label>Tipo de catalogo</mat-label>
+                <mat-select [(ngModel)]="selectedCatalogType" (selectionChange)="cargarCatalogo()">
+                  <mat-option *ngFor="let option of catalogTypes" [value]="option.tipo">{{ option.label }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-stroked-button type="button" (click)="cargarCatalogo()" [disabled]="catalogLoading">
+                <span class="material-symbols-outlined">refresh</span>
+                Recargar
+              </button>
+            </div>
+
+            <div class="catalog-form">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ selectedCatalogConfig.field === 'texto' ? 'Texto' : 'Nombre' }}</mat-label>
+                <input matInput type="text" [(ngModel)]="catalogPrimaryValue">
+              </mat-form-field>
+              <mat-form-field appearance="outline" *ngIf="selectedCatalogConfig.description">
+                <mat-label>Descripcion</mat-label>
+                <input matInput type="text" [(ngModel)]="catalogForm.descripcion">
+              </mat-form-field>
+              <div class="catalog-actions">
+                <button mat-stroked-button type="button" (click)="resetCatalogForm()">Limpiar</button>
+                <button mat-raised-button color="primary" type="button" (click)="guardarCatalogo()" [disabled]="catalogLoading">
+                  {{ catalogEditingId ? 'Actualizar' : 'Crear' }}
+                </button>
+              </div>
+            </div>
+
+            <div *ngIf="catalogLoading" class="catalog-empty">Cargando catalogo...</div>
+            <div *ngIf="!catalogLoading && catalogItems.length === 0" class="catalog-empty">No hay registros para mostrar.</div>
+
+            <div class="catalog-list" *ngIf="!catalogLoading && catalogItems.length > 0">
+              <div class="catalog-row" *ngFor="let item of catalogItems">
+                <div>
+                  <strong>{{ catalogLabel(item) }}</strong>
+                  <p *ngIf="item.descripcion">{{ item.descripcion }}</p>
+                </div>
+                <div class="catalog-row-actions">
+                  <button mat-stroked-button type="button" (click)="editarCatalogo(item)">Editar</button>
+                  <button mat-stroked-button color="warn" type="button" (click)="eliminarCatalogo(item)">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </section>
+
+
+      <section class="modules-grid">
+        <mat-card class="modules-card">
+          <mat-card-header>
+            <div>
+              <mat-card-title>Modulos administrativos</mat-card-title>
+              <mat-card-subtitle>Accesos seguros dentro del flujo admin</mat-card-subtitle>
+            </div>
+            <mat-form-field appearance="outline" class="search-field">
+              <mat-label>Buscar modulo</mat-label>
+              <span matPrefix class="material-symbols-outlined">search</span>
+              <input matInput type="text" [(ngModel)]="search" placeholder="Usuarios, validaciones, reportes">
+            </mat-form-field>
+          </mat-card-header>
+          <mat-card-content>
+            <button type="button" class="module-item" *ngFor="let module of filteredModules" (click)="go(module.route)">
+              <span class="material-symbols-outlined">{{ module.icon }}</span>
+              <div>
+                <strong>{{ module.title }}</strong>
+                <p>{{ module.text }}</p>
+              </div>
+              <b>{{ module.metric }}</b>
+            </button>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="actions-card">
+          <mat-card-content>
+            <h3>Guardar preferencias</h3>
+            <p>Estas opciones se guardan en localStorage para respetar la arquitectura actual sin crear endpoints que no existen.</p>
+            <div class="actions">
+              <button mat-stroked-button type="button" (click)="restaurarPreferencias()">Restaurar</button>
+              <button mat-raised-button color="primary" type="button" (click)="guardarPreferencias()">Guardar</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </section>
+    </section>
+  </main>
+</div>
