@@ -1,15 +1,14 @@
 version: '3.9'
 
 services:
-
-  postgres-db:
+  db:
     image: postgres:16-alpine
     container_name: postgres-db
     restart: always
     environment:
       POSTGRES_DB: mindcare_db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: 12345
     ports:
       - "5432:5432"
     volumes:
@@ -20,25 +19,30 @@ services:
   backend:
     build:
       context: ./MindCare-Backend
+      dockerfile: Dockerfile
     container_name: springboot-api
     restart: always
     ports:
       - "8080:8080"
     depends_on:
-      - postgres-db
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/mindcare_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_SQL_INIT_MODE: always
-      SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "true"
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mindcare_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=12345
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_SQL_INIT_MODE=always
+      - SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION=true
+      - JWT_SECRET=0C/ZZj9OCW7Q74lUM200BayaFq6u12EKyps4NLFQNufowubX5nE1DQT8XRdwv0zUBp7Tns1DQT8XRdwv0zUBp7Tns1yhYlwzUCm3maQkg==
+      - APP_CORS_ALLOWED_ORIGINS=http://44.214.142.138,http://44.214.142.138:4200
+      - IP_FRONTEND=http://44.214.142.138
     networks:
       - springcloud
 
   frontend:
     build:
       context: ./MindCare-Frontend
+      dockerfile: Dockerfile
     container_name: front
     restart: always
     ports:
