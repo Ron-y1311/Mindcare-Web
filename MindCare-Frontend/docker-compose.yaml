@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  app:
+    image: mindcare-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    networks:
+      - springcloud
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: "720M"
+networks:
+  springcloud:
+    name: springcloud
