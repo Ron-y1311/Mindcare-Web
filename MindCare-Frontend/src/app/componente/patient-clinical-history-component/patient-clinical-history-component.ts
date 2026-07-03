@@ -1,4 +1,5 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿// Consulta de historial clínico completo en TypeScript
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
