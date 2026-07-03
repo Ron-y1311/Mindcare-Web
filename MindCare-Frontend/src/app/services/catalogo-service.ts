@@ -13,7 +13,7 @@ export interface CatalogoItem {
   descripcion?: string;
   texto?: string;
 }
-
+//Servicio Angular para proveer y administrar los catálogos generales en el frontend
 @Injectable({ providedIn: 'root' })
 export class CatalogoService {
   private url = `${environment.apiURL}/catalogos`;

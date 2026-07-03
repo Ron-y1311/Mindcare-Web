@@ -16,6 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UsuarioRepositorio usuarioRepositorio;
 
+    //Actualizacion del CustomUser
     public CustomUserDetailsService(UsuarioRepositorio usuarioRepositorio) {
         this.usuarioRepositorio = usuarioRepositorio;
     }

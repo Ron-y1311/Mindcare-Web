@@ -42,6 +42,7 @@ public class DashboardService implements IDashboardService {
         return new DashboardDTO(pacienteId, estado, promedio, trackings.size(), encuestas.size(), citas.size(), true, "Dashboard generado correctamente");
     }
 
+    //Implementar metodo consultar Evolucion emocional en services
     public List<TrackingDTO> consultarEvolucionEmocional(Long pacienteId) {
         validarPacienteExiste(pacienteId);
         return trackingRepositorio.findByPaciente_PacienteId(pacienteId).stream()

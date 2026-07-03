@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+//Lógica de negocio para la administración de las tablas maestras y catálogos del sistema
 public class CatalogoService implements ICatalogoService {
     @Autowired private RolRepositorio rolRepositorio;
     @Autowired private EstadoAnimoRepositorio estadoAnimoRepositorio;

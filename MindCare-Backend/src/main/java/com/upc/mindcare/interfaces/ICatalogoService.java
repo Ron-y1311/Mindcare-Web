@@ -7,7 +7,7 @@ import com.upc.mindcare.dtos.PreguntaDTO;
 import com.upc.mindcare.dtos.RolDTO;
 
 import java.util.List;
-
+//Contrato del servicio que define los métodos para la administración de los catálogos del sistema
 public interface ICatalogoService {
     List<RolDTO> listarRoles();
     RolDTO crearRol(RolDTO dto);

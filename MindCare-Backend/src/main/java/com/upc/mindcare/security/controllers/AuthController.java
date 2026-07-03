@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class AuthController {
 
+    //configuracion del authcontroller para autenticacion
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;

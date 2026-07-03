@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//Controlador para la gestión y mantenimiento de los catálogos generales del sistema
 @RestController
 @RequestMapping("/api/catalogos")
 @Tag(name = "Catalogos", description = "Administración de roles, estados, preguntas y especialidades")

@@ -37,7 +37,7 @@ public class RecomendacionController {
     public String evaluarEstadoEmocional(@PathVariable Long pacienteId) {
         return recomendacionService.evaluarEstadoEmocional(pacienteId);
     }
-
+    //Endpoint para consultar alertas preventivas del paciente ante variaciones emocionales
     @GetMapping("/paciente/{pacienteId}/alerta")
     @PreAuthorize("hasRole('PACIENTE')")
     public String generarAlertaPreventiva(@PathVariable Long pacienteId) {

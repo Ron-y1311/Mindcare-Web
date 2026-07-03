@@ -45,6 +45,7 @@ public class ProfesionalService implements IProfesionalService {
         return mapToDTO(profesionalRepositorio.save(profesional));
     }
 
+    //Implementar ActualizarPerfil profesional en services
     @Transactional
     public ProfesionalDTO actualizarPerfilProfesional(Long id, ProfesionalDTO dto) {
         Profesional profesional = buscarProfesional(id);

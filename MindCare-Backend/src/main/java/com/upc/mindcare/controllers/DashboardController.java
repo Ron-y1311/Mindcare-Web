@@ -1,3 +1,4 @@
+//actualizacion de documentacion de DashboardController
 package com.upc.mindcare.controllers;
 
 import com.upc.mindcare.dtos.DashboardDTO;
@@ -26,6 +27,7 @@ public class DashboardController {
         return dashboardService.visualizarDashboardPersonal(pacienteId);
     }
 
+    //Implementar endpoint de la consulta evolucion emocional
     @GetMapping("/paciente/{pacienteId}/evolucion-emocional")
     @PreAuthorize("hasRole('PACIENTE')")
     public List<TrackingDTO> consultarEvolucionEmocional(@PathVariable Long pacienteId) {

@@ -1,3 +1,4 @@
+//actualizacion del ts 
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';

@@ -1,3 +1,4 @@
+//actualizacion de documentacion de citaController
 package com.upc.mindcare.controllers;
 
 import com.upc.mindcare.dtos.CitaDTO;
@@ -26,12 +27,14 @@ public class CitaController {
         return citaService.agendarCita(dto);
     }
 
+    //Implementar endpoint get de listar cita por paciente
     @GetMapping("/paciente/{id}")
     @PreAuthorize("hasAnyRole('PACIENTE', 'PROFESIONAL')")
     public List<CitaDTO> listarPorPaciente(@PathVariable Long id) {
         return citaService.listarCitasPorPaciente(id);
     }
 
+    //Implementar endpoint get de listar cita por profesional
     @GetMapping("/profesional/{id}")
     @PreAuthorize("hasRole('PROFESIONAL')")
     public List<CitaDTO> listarPorProfesional(@PathVariable Long id) {

@@ -63,6 +63,7 @@ public class CitaService implements ICitaService {
         return mapToDTO(citaRepositorio.save(cita));
     }
 
+    //Implementar metodo de listarCitaPorPaciente
     public List<CitaDTO> listarCitasPorPaciente(Long pacienteId) {
         pacienteRepositorio.findById(pacienteId)
                 .orElseThrow(() -> new RuntimeException("Paciente no encontrado"));
@@ -71,6 +72,7 @@ public class CitaService implements ICitaService {
                 .toList();
     }
 
+    //Implementar metodo de listarCitaPorProfesional
     public List<CitaDTO> listarCitasPorProfesional(Long profesionalId) {
         profesionalRepositorio.findById(profesionalId)
                 .orElseThrow(() -> new RuntimeException("Profesional no encontrado"));
@@ -128,6 +130,7 @@ public class CitaService implements ICitaService {
         citaRepositorio.save(cita);
     }
 
+    //Implementar registro de nota clinica
     @Transactional
     public void registrarNotaClinica(Long citaId, CitaDTO citaDTO) {
         Cita cita = obtenerCita(citaId);
