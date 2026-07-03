@@ -13,12 +13,13 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mindcare_db
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=Bryan141105
+      - SPRING_DATASOURCE_PASSWORD=12345
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_SQL_INIT_MODE=always
       - SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION=true
       - JWT_SECRET=0C/ZZj9OCW7Q74lUM200BayaFq6u12EKyps4NLFQNufowubX5nE1DQT8XRdwv0zUBp7Tns1DQT8XRdwv0zUBp7Tns1yhYlwzUCm3maQkg==
       - APP_CORS_ALLOWED_ORIGINS=http://localhost:4200,http://localhost:80,http://localhost,http://127.0.0.1
+      - IP_FRONTEND=http://localhost:4200
   db:
     image: postgres:16-alpine
     volumes:
@@ -29,7 +30,7 @@ services:
       - springcloud
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Bryan141105
+      - POSTGRES_PASSWORD=12345
       - POSTGRES_DB=mindcare_db
     ports:
       - "5432:5432"
