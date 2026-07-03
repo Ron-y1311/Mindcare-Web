@@ -1,1 +1,38 @@
+version: '3.9'
 
+services:
+
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: mindcare_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - springcloud
+
+  backend:
+    build:
+      context: ./MindCare-Backend
+    container_name: springboot-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres-db
+    networks:
+      - springcloud
+
+  frontend:
+    image: javacf/front-end
+    container_name: front
+    ports:
+      - "80:80"
+    networks:
+      - springcloud
+
+networks:
+  springcloud:
+    driver: bridge
