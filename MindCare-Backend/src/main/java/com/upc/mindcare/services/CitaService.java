@@ -130,6 +130,7 @@ public class CitaService implements ICitaService {
         citaRepositorio.save(cita);
     }
 
+    //Implementar registro de nota clinica
     @Transactional
     public void registrarNotaClinica(Long citaId, CitaDTO citaDTO) {
         Cita cita = obtenerCita(citaId);
