@@ -18,8 +18,8 @@ services:
       SPRING_SQL_INIT_MODE: always
       SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION: "true"
       JWT_SECRET: 0C/ZZj9OCW7Q74lUM200BayaFq6u12EKyps4NLFQNufowubX5nE1DQT8XRdwv0zUBp7Tns1DQT8XRdwv0zUBp7Tns1yhYlwzUCm3maQkg==
-      APP_CORS_ALLOWED_ORIGINS: http://44.214.142.138
-      IP_FRONTEND: http://44.214.142.138
+      APP_CORS_ALLOWED_ORIGINS: http://35.175.109.127
+      IP_FRONTEND: http://35.175.109.127
 
   db:
     image: postgres:16-alpine
