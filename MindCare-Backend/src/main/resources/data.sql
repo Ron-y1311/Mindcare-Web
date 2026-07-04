@@ -195,3 +195,13 @@ VALUES (
            3
        )
 ON CONFLICT (id_profesional) DO NOTHING;
+
+-- Sincronizar las secuencias de las claves primarias tras las inserciones estaticas
+SELECT setval(pg_get_serial_sequence('usuarios', 'id_usuario'), COALESCE((SELECT MAX(id_usuario) FROM usuarios), 1), true);
+SELECT setval(pg_get_serial_sequence('pacientes', 'id_paciente'), COALESCE((SELECT MAX(id_paciente) FROM pacientes), 1), true);
+SELECT setval(pg_get_serial_sequence('profesionales', 'id_profesional'), COALESCE((SELECT MAX(id_profesional) FROM profesionales), 1), true);
+SELECT setval(pg_get_serial_sequence('roles', 'id_rol'), COALESCE((SELECT MAX(id_rol) FROM roles), 1), true);
+SELECT setval(pg_get_serial_sequence('estados_cita', 'id_estado_cita'), COALESCE((SELECT MAX(id_estado_cita) FROM estados_cita), 1), true);
+SELECT setval(pg_get_serial_sequence('estados_animo', 'id_estado_animo'), COALESCE((SELECT MAX(id_estado_animo) FROM estados_animo), 1), true);
+SELECT setval(pg_get_serial_sequence('preguntas', 'id_pregunta'), COALESCE((SELECT MAX(id_pregunta) FROM preguntas), 1), true);
+SELECT setval(pg_get_serial_sequence('especialidades', 'id_especialidad'), COALESCE((SELECT MAX(id_especialidad) FROM especialidades), 1), true);
