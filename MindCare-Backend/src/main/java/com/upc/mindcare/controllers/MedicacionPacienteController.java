@@ -20,6 +20,7 @@ public class MedicacionPacienteController {
 
     @PostMapping
     @PreAuthorize("hasRole('PROFESIONAL')")
+    //Implementar registro medicacion en controller
     public MedicacionPacienteDTO registrarMedicacion(@Valid @RequestBody MedicacionPacienteDTO dto) {
         return medicacionPacienteService.registrarMedicacion(dto);
     }
