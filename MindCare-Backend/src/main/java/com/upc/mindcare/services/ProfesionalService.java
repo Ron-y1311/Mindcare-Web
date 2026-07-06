@@ -87,6 +87,7 @@ public class ProfesionalService implements IProfesionalService {
     }
 
     @Transactional
+    //Implementar validacion de profesional
     public ProfesionalDTO aprobarProfesional(Long id) {
         Profesional profesional = buscarProfesional(id);
         profesional.setEstadoValidacion(ESTADO_APROBADO);
