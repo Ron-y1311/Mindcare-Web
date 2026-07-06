@@ -123,8 +123,35 @@ export class AgendarCitaComponent implements OnInit {
     };
   }
 
+  cancelSaving = false;
+
   goBookAppointment(): void {
     this.router.navigate(['/book-appointment']);
+  }
+
+  puedeCancelar(cita?: Cita): boolean {
+    if (!cita) return false;
+    return cita.estadoCitaId !== 4 && cita.estadoCitaId !== 5;
+  }
+
+  cancelarCita(id?: number): void {
+    if (!id) return;
+    if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) return;
+
+    this.cancelSaving = true;
+    this.citaService.cancelar(id).subscribe({
+      next: () => {
+        this.cancelSaving = false;
+        this.appointments = this.appointments.map(a => a.idCita === id ? { ...a, estadoCitaId: 4 } : a);
+        this.cdr.detectChanges();
+        alert('Cita cancelada correctamente.');
+      },
+      error: err => {
+        this.cancelSaving = false;
+        this.cdr.detectChanges();
+        alert(err?.error?.message || 'No se pudo cancelar la cita.');
+      }
+    });
   }
 
   logout(): void {

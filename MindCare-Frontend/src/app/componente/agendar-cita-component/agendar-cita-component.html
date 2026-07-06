@@ -31,7 +31,9 @@
           </div>
 
           <div class="next-actions">
-            <button mat-button class="btn-outline" type="button" routerLink="/reprogram-appointment" [disabled]="!nextAppointment">Reprogramar</button><button mat-stroked-button class="btn-status" type="button" disabled><span class="material-symbols-outlined button-icon">info</span>{{ patientAppointmentStateText(nextAppointment) }}</button>
+            <button mat-button class="btn-outline" type="button" routerLink="/reprogram-appointment" [disabled]="!nextAppointment">Reprogramar</button>
+            <button mat-button class="btn-outline" style="color: #ef4444; border-color: #fca5a5;" type="button" *ngIf="nextAppointment && puedeCancelar(nextAppointment)" (click)="cancelarCita(nextAppointment.idCita)" [disabled]="cancelSaving">Cancelar</button>
+            <button mat-stroked-button class="btn-status" type="button" disabled><span class="material-symbols-outlined button-icon">info</span>{{ patientAppointmentStateText(nextAppointment) }}</button>
           </div>
         </div>
       </section>
@@ -68,7 +70,9 @@
               </div>
               <div class="appointment-actions">
                 <span class="badge" [ngClass]="statusClass(appointment.estadoCitaId)">{{ statusText(appointment.estadoCitaId) }}</span>
-                <span class="material-symbols-outlined">more_vert</span>
+                <button mat-button style="color: #ef4444; min-width: auto; padding: 0 8px;" type="button" *ngIf="puedeCancelar(appointment)" (click)="cancelarCita(appointment.idCita)" [disabled]="cancelSaving">
+                  <span class="material-symbols-outlined" style="font-size: 20px;">cancel</span>
+                </button>
               </div>
             </div>
           </div>

@@ -151,6 +151,13 @@
               </button>
             </section><ng-template #clinicalLocked><section class="detail-section"><h3><span class="material-symbols-outlined">lock</span>Formulario de nota</h3><div class="note-box">Primero confirma la cita para registrar nota, observaciones clinicas o plan de accion.</div></section></ng-template><div class="detail-actions"><button mat-raised-button color="primary" type="button" *ngIf="puedeConfirmar(selectedCita)" (click)="confirmarCita()" [disabled]="confirmSaving"><span class="material-symbols-outlined button-icon">event_available</span>{{ confirmSaving ? 'Confirmando...' : 'Confirmar cita' }}</button><div *ngIf="confirmMessage" class="note-feedback success">{{ confirmMessage }}</div><div *ngIf="confirmError" class="note-feedback error">{{ confirmError }}</div>
               <button mat-raised-button color="primary" type="button" (click)="marcarComoCompletada()" [disabled]="completionSaving || !puedeFinalizar(selectedCita) || estado(selectedCita.estadoCitaId) === 'FINALIZADA'"><span class="material-symbols-outlined button-icon">done_all</span>{{ completionSaving ? 'Completando...' : (estado(selectedCita.estadoCitaId) === 'FINALIZADA' ? 'Cita completada' : 'Marcar como completada') }}</button><div *ngIf="completionMessage" class="note-feedback success">{{ completionMessage }}</div><div *ngIf="completionError" class="note-feedback error">{{ completionError }}</div>
+              
+              <button mat-raised-button color="warn" type="button" *ngIf="puedeCancelar(selectedCita)" (click)="cancelarCita()" [disabled]="cancelSaving">
+                <span class="material-symbols-outlined button-icon">cancel</span>
+                {{ cancelSaving ? 'Cancelando...' : 'Cancelar cita' }}
+              </button>
+              <div *ngIf="cancelMessage" class="note-feedback success">{{ cancelMessage }}</div>
+              <div *ngIf="cancelError" class="note-feedback error">{{ cancelError }}</div>
               <button mat-stroked-button color="primary" type="button" routerLink="/patient-clinical-history" [queryParams]="{ pacienteId: selectedCita.pacienteId, nombre: selectedCita.nombrePaciente || 'Paciente MindCare' }">
                 <span class="material-symbols-outlined button-icon">history</span>
                 Ver historial cl&iacute;nico

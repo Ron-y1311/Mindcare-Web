@@ -42,6 +42,9 @@ export class ProfessionalAgendaComponent implements OnInit {
   confirmSaving = false;
   confirmMessage = '';
   confirmError = '';
+  cancelSaving = false;
+  cancelMessage = '';
+  cancelError = '';
   noteForm: Pick<Cita, 'nota' | 'observacionesClinicas' | 'planAccion'> = {
     nota: '',
     observacionesClinicas: '',
@@ -220,6 +223,54 @@ export class ProfessionalAgendaComponent implements OnInit {
         },
         error: err => {
           this.confirmError = err?.error?.message || 'No se pudo confirmar la cita.';
+        },
+      });
+  }
+
+  puedeCancelar(cita?: Cita): boolean {
+    if (!cita) return false;
+    const estado = this.estado(cita.estadoCitaId);
+    return estado !== 'FINALIZADA' && estado !== 'CANCELADA';
+  }
+
+  cancelarCita(): void {
+    this.cancelMessage = '';
+    this.cancelError = '';
+    this.confirmMessage = '';
+    this.confirmError = '';
+
+    if (!this.selectedCita?.idCita) {
+      this.cancelError = 'No se pudo identificar la cita seleccionada.';
+      return;
+    }
+
+    if (!this.puedeCancelar(this.selectedCita)) {
+      this.cancelError = 'Esta cita no se puede cancelar desde su estado actual.';
+      return;
+    }
+
+    if (!confirm('¿Estás seguro de que deseas cancelar esta cita?')) {
+      return;
+    }
+
+    this.cancelSaving = true;
+    this.citaService.cancelar(this.selectedCita.idCita)
+      .pipe(finalize(() => {
+        this.cancelSaving = false;
+        this.cdr.detectChanges();
+      }))
+      .subscribe({
+        next: () => {
+          const updated: Cita = {
+            ...this.selectedCita,
+            estadoCitaId: 4, // CANCELADA
+          };
+          this.selectedCita = updated;
+          this.citas = this.citas.map(cita => cita.idCita === updated.idCita ? { ...cita, ...updated } : cita);
+          this.cancelMessage = 'Cita cancelada correctamente.';
+        },
+        error: err => {
+          this.cancelError = err?.error?.message || 'No se pudo cancelar la cita.';
         },
       });
   }
