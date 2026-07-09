@@ -125,6 +125,7 @@
                 <ng-container *ngFor="let point of chartPoints">
                   <circle [attr.cx]="point.x" [attr.cy]="point.y" r="6" fill="#2563eb"/>
                   <text [attr.x]="point.x" [attr.y]="point.y - 13" text-anchor="middle" font-size="11" fill="#1e293b" font-weight="600">{{ point.value }}</text>
+                  <text *ngIf="point.emotion" [attr.x]="point.x" [attr.y]="point.y + 18" text-anchor="middle" font-size="9" fill="#475569" font-weight="500">{{ point.emotion }}</text>
                 </ng-container>
                 <text x="45" y="195" font-size="11" fill="#64748b">Intensidad emocional (1-10)</text>
               </svg>

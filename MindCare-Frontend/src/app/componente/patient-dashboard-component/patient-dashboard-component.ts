@@ -20,6 +20,7 @@ interface ChartPoint {
   x: number;
   y: number;
   value: number;
+  emotion?: string;
 }
 
 interface RecommendationItem {
@@ -251,6 +252,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
     const data = safeRegistros.slice(-8).map((e, i) => ({
       index: i + 1,
       intensidad: this.resolveTrackingIntensity(e),
+      emocion: this.resolveTrackingMoodName(e) || 'Sin registrar',
     }));
     const x = (i: number) => left + (i * chartWidth) / Math.max(data.length - 1, 1);
     const y = (value: number) => top + chartHeight - (value / 10) * chartHeight;
@@ -259,6 +261,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
       x: x(i),
       y: y(d.intensidad),
       value: d.intensidad,
+      emotion: d.emocion,
     }));
     this.chartLine = this.chartPoints.map(point => `${point.x},${point.y}`).join(' ');
     this.chartArea = `${left},${height - bottom} ${this.chartLine} ${width - right},${height - bottom}`;
