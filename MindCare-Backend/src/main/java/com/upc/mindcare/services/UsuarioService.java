@@ -235,7 +235,7 @@ public class UsuarioService implements IUsuarioService {
                     + "</div>"
                     + "<p>Puedes ingresar este código manualmente en la web o hacer clic en el siguiente botón para restablecer tu contraseña directamente:</p>"
                     + "<div style=\"text-align: center; margin: 25px 0;\">"
-                    + "  <a href=\"http://localhost:4200/restablecer-password?token=" + reset.getToken() + "\" style=\"background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;\">Restablecer contraseña</a>"
+                    + "  <a href=\"http://3.233.70.52/restablecer-password?token=" + reset.getToken() + "\" style=\"background-color: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;\">Restablecer contraseña</a>"
                     + "</div>"
                     + "<p style=\"color: #64748b; font-size: 14px;\">Este enlace y código expirarán en 30 minutos. Si no solicitaste este cambio, puedes ignorar este mensaje.</p>"
                     + "<hr style=\"border: none; border-top: 1px solid #eef2f6; margin: 20px 0;\">"
